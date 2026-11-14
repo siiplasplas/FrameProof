@@ -96,19 +96,22 @@ public sealed class HomePage : Page
         var summary = bad + warn == 0
             ? "Oyun açısından önemli bir sorun yok."
             : string.Join(", ", new[] { bad > 0 ? $"{bad} sorun" : null, warn > 0 ? $"{warn} uyarı" : null }.Where(x => x != null)) + " bulundu.";
+        var headline = Ui.T(label, 26, brush, FontWeights.Bold);
+        headline.FontFamily = new FontFamily("Segoe UI Variable Display, Segoe UI");
         var left = Ui.V(
-            Ui.T(label, 22, brush, FontWeights.SemiBold),
-            Ui.T(summary, 14, margin: new Thickness(0, 4, 0, 0)),
+            Ui.T("OYUN HAZIRLIĞI", 11, "Dim", FontWeights.Bold),
+            headline,
+            Ui.T(summary, 14, margin: new Thickness(0, 2, 0, 0)),
             Ui.Muted($"Son tarama {r.At:HH:mm}", 12, new Thickness(0, 4, 0, 0)));
         left.VerticalAlignment = VerticalAlignment.Center;
 
         // Plan önizlemesi
-        var planList = new StackPanel { Margin = new Thickness(0, 14, 0, 0) };
+        var planList = new StackPanel { Margin = new Thickness(0, 4, 0, 0) };
         if (plan.IsEmpty)
             planList.Children.Add(Ui.Muted("Tek tıkla yapılacak bir şey kalmadı. Aşağıdaki sorunlar elle karar vermen gereken şeyler.", 12));
         else
         {
-            planList.Children.Add(Ui.T("Optimize et şunları yapacak:", 12, "Muted", FontWeights.SemiBold, new Thickness(0, 0, 0, 4)));
+            planList.Children.Add(Ui.T("OPTİMİZE ET ŞUNLARI YAPACAK", 11, "Dim", FontWeights.Bold, new Thickness(0, 0, 0, 6)));
             if (plan.Clean.Count > 0)
                 planList.Children.Add(Line($"{Fmt.Bytes(plan.Bytes)} gereksiz dosya silinecek ({string.Join(", ", plan.Clean.Select(c => c.Target.Name))})"));
             foreach (var t in plan.Tweaks) planList.Children.Add(Line(t.Title));
@@ -117,25 +120,122 @@ public sealed class HomePage : Page
             planList.Children.Add(Ui.Muted($"Yönetici izni olmadığı için {plan.SkippedNoAdmin.Count} madde atlanacak. Üstteki 'Yönetici olarak aç' ile hepsi yapılır.", 11, new Thickness(0, 6, 0, 0)));
 
         var go = Ui.Btn(plan.IsEmpty ? "Her şey yolunda" : "Optimize et", () => RunOptimize(plan), primary: !plan.IsEmpty);
-        go.FontSize = 15;
-        go.Padding = new Thickness(26, 11, 26, 11);
+        go.FontSize = 16;
+        go.FontWeight = FontWeights.SemiBold;
+        go.Padding = new Thickness(34, 13, 34, 13);
         go.IsEnabled = !plan.IsEmpty;
-        var right = Ui.V(go, Ui.Muted("Her ayar değişikliği 'Geri al' sekmesinden geri alınabilir.", 11, new Thickness(0, 6, 0, 0)));
+        var note = Ui.Muted("Her ayar 'Geri al' sekmesinden geri alınır.", 11, new Thickness(0, 8, 0, 0));
+        note.TextAlignment = TextAlignment.Center;
+        var right = Ui.V(go, note);
         right.VerticalAlignment = VerticalAlignment.Center;
-        right.MaxWidth = 220;
+        right.MaxWidth = 230;
 
         var top = new Grid();
         top.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
         top.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
         top.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
         top.Children.Add(ring);
-        left.Margin = new Thickness(20, 0, 16, 0);
+        left.Margin = new Thickness(24, 0, 16, 0);
         Grid.SetColumn(left, 1);
         top.Children.Add(left);
         Grid.SetColumn(right, 2);
         top.Children.Add(right);
 
-        return Ui.Card(Ui.V(top, planList), padding: 22);
+        var content = Ui.V(top, Ui.Divider(20, 16), planList);
+        if (Specs(r) is { } specs) { content.Children.Add(Ui.Divider(18, 0)); content.Children.Add(specs); }
+        content.Margin = new Thickness(26, 24, 26, 20);
+
+        // Puanın arkasında rengine göre hafif bir ışık: kartı düz bir kutu olmaktan çıkarır.
+        var c = ((SolidColorBrush)Ui.B(brush)).Color;
+        var glow = new Border
+        {
+            CornerRadius = new CornerRadius(14),
+            Background = new RadialGradientBrush
+            {
+                Center = new Point(0.1, 0.22), GradientOrigin = new Point(0.1, 0.22), RadiusX = 0.42, RadiusY = 0.75,
+                GradientStops =
+                {
+                    new GradientStop(Color.FromArgb(0x30, c.R, c.G, c.B), 0),
+                    new GradientStop(Color.FromArgb(0x10, c.R, c.G, c.B), 0.5),
+                    new GradientStop(Color.FromArgb(0, c.R, c.G, c.B), 1),
+                },
+            },
+        };
+        var layers = new Grid();
+        layers.Children.Add(glow);
+        layers.Children.Add(content);
+        return new Border
+        {
+            Background = Ui.B("CardFill"),
+            BorderBrush = Ui.B("CardEdge"),
+            BorderThickness = new Thickness(1),
+            CornerRadius = new CornerRadius(14),
+            Margin = new Thickness(0, 0, 0, 10),
+            Child = layers,
+        };
+    }
+
+    /// <summary>Kartın altındaki donanım şeridi: işlemci, ekran kartı, RAM, monitör. Taramadaki bilgi bulgularından.</summary>
+    private static UIElement? Specs(ScanReport r)
+    {
+        Finding? F(string id, Func<Finding, bool>? pick = null) =>
+            r.Findings.Where(f => f.Id == id).OrderByDescending(f => pick?.Invoke(f) ?? false).FirstOrDefault();
+        static string Head(string v) => v.Split(" · ")[0];
+        static string Tail(string v) { var p = v.Split(" · "); return p.Length > 1 ? string.Join(" · ", p.Skip(1)) : ""; }
+        static string CleanCpu(string n)
+        {
+            foreach (var junk in new[] { "(R)", "(TM)", "(tm)", " CPU", " Processor" }) n = n.Replace(junk, "");
+            var w = n.IndexOf(" with ", StringComparison.OrdinalIgnoreCase);
+            if (w > 0) n = n[..w];
+            var at = n.IndexOf(" @ ", StringComparison.Ordinal);
+            if (at > 0) n = n[..at];
+            return n.Trim();
+        }
+
+        var items = new List<(string Glyph, string Label, string Value, string Sub)>();
+        if (F("cpu") is { } cpu) items.Add(("E950", "İşlemci", CleanCpu(Head(cpu.Value)), Tail(cpu.Value)));
+        if (F("gpu", f => f.Title == "Ekran kartı") is { } gpu)
+        {
+            var name = Head(gpu.Value);
+            foreach (var v in new[] { "NVIDIA ", "AMD ", "Intel(R) " })
+                if (name.StartsWith(v, StringComparison.OrdinalIgnoreCase) && name.Length > v.Length + 6) { name = name[v.Length..]; break; }
+            items.Add(("E964", "Ekran kartı", name, Tail(gpu.Value)));
+        }
+        if (F("ram") is { } ram) items.Add(("EEA1", "Bellek", Head(ram.Value), Tail(ram.Value)));
+        if (F("refresh", f => f.Title == "Ana monitör") is { } mon)
+        {
+            var p = mon.Value.Split(" · ");
+            items.Add(("E7F4", "Monitör", p.Length > 1 ? p[^1] : mon.Value, p.Length > 1 ? string.Join(" · ", p[..^1]) : ""));
+        }
+        if (items.Count == 0) return null;
+
+        var g = new Grid { Margin = new Thickness(0, 16, 0, 0) };
+        for (int i = 0; i < items.Count; i++)
+        {
+            var (glyph, label, value, sub) = items[i];
+            // İşlemci ve ekran kartı adları uzun: onlara daha geniş sütun.
+            g.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(glyph is "E950" or "E964" ? 1.35 : 1, GridUnitType.Star) });
+            var icon = Ui.Icon(((char)Convert.ToInt32(glyph, 16)).ToString(), 18, "Accent"); // glyph: simge kodu (onaltılı)
+            icon.VerticalAlignment = VerticalAlignment.Top;
+            icon.Margin = new Thickness(0, 2, 12, 0);
+            var val = Ui.T(value, 13, weight: FontWeights.SemiBold);
+            var subT = Ui.T(sub, 11, "Dim");
+            foreach (var t in new[] { val, subT }) { t.TextWrapping = TextWrapping.NoWrap; t.TextTrimming = TextTrimming.CharacterEllipsis; t.ToolTip = t.Text; }
+            var text = Ui.V(Ui.T(label.ToUpper(Fmt.Tr), 10, "Dim", FontWeights.Bold), val, subT);
+            var dock = new DockPanel { Margin = new Thickness(i == 0 ? 0 : 16, 0, 12, 0) };
+            DockPanel.SetDock(icon, Dock.Left);
+            dock.Children.Add(icon);
+            dock.Children.Add(text);
+            var cell = new Border
+            {
+                BorderBrush = Ui.B("Line"),
+                BorderThickness = new Thickness(i == 0 ? 0 : 1, 0, 0, 0),
+                Child = dock,
+            };
+            Grid.SetColumn(cell, i);
+            g.Children.Add(cell);
+        }
+        return g;
     }
 
     private async Task RunOptimize(OptimizePlan plan)
@@ -205,7 +305,7 @@ public sealed class HomePage : Page
         var head = Ui.Row(Ui.V(
             Ui.T($"Bu laptopta iki ekran kartı var. Oyunlar {dgpu} ile çalışmalı.", 13),
             Ui.Muted("Windows'un oyun olarak tanıdığı programlar. Kayıt Windows Ayarlar > Ekran > Grafik bölümündekiyle aynıdır.", 12, new Thickness(0, 2, 0, 0))), btn);
-        panel.Children.Add(Ui.Card(Ui.V(head, new Border { Height = 1, Background = Ui.B("Line"), Margin = new Thickness(0, 12, 0, 8) }, list), padding: 16));
+        panel.Children.Add(Ui.Card(Ui.V(head, Ui.Divider(12, 8), list), padding: 16));
         return panel;
     }
 
@@ -260,7 +360,7 @@ public sealed class HomePage : Page
         var head = Ui.Row(Ui.V(
             Ui.T("Windows'un arkada çalıştırdığı, oyuna bir faydası olmayan şeyler.", 13),
             Ui.Muted("Defender, Windows Update, Güvenlik Duvarı ve arama dizinine bilerek dokunmuyoruz: kapatmak FPS getirmez, bilgisayarı korumasız ya da bozuk bırakır.", 12, new Thickness(0, 2, 0, 0))), btn);
-        panel.Children.Add(Ui.Card(Ui.V(head, new Border { Height = 1, Background = Ui.B("Line"), Margin = new Thickness(0, 12, 0, 6) }, list), padding: 16));
+        panel.Children.Add(Ui.Card(Ui.V(head, Ui.Divider(12, 6), list), padding: 16));
         return panel;
     }
 
@@ -368,7 +468,7 @@ public sealed class HomePage : Page
         var head = Ui.V(
             Ui.T("Daha sert sadeleştirme. Her birinin küçük bir bedeli var, o yüzden Optimize et bunları yapmaz; tek tek sen seçersin.", 13),
             Ui.Muted("Hepsi 'Geri al' sekmesinden geri alınır. Edge silinmez, Defender ve Windows Update'e dokunulmaz.", 12, new Thickness(0, 2, 0, 0)));
-        panel.Children.Add(Ui.Card(Ui.V(head, new Border { Height = 1, Background = Ui.B("Line"), Margin = new Thickness(0, 12, 0, 6) }, list), padding: 16));
+        panel.Children.Add(Ui.Card(Ui.V(head, Ui.Divider(12, 6), list), padding: 16));
         return panel;
     }
 
@@ -401,25 +501,36 @@ public sealed class HomePage : Page
         return (total - free, total);
     }
 
-    private static UIElement Line(string text) =>
-        Ui.H(Ui.T("→", 12, "Accent", margin: new Thickness(0, 0, 8, 0)), Ui.T(text, 12));
-
-    private static Border Chip(string text) => new()
+    private static UIElement Line(string text)
     {
-        Background = Ui.B("Panel"),
-        BorderBrush = Ui.B("Line"),
-        BorderThickness = new Thickness(1),
-        CornerRadius = new CornerRadius(14),
-        Padding = new Thickness(10, 4, 12, 5),
-        Margin = new Thickness(0, 0, 8, 8),
-        Child = Ui.H(Ui.T("✓ ", 12, "Accent", FontWeights.SemiBold), Ui.T(text, 12)),
-    };
+        var dot = new Ellipse { Width = 6, Height = 6, Fill = Ui.B("Accent"), Margin = new Thickness(2, 6, 10, 0), VerticalAlignment = VerticalAlignment.Top };
+        var t = Ui.T(text, 13);
+        var d = new DockPanel { Margin = new Thickness(0, 2, 0, 2) };
+        DockPanel.SetDock(dot, Dock.Left);
+        d.Children.Add(dot);
+        d.Children.Add(t);
+        return d;
+    }
+
+    private static Border Chip(string text)
+    {
+        var check = Ui.Icon(((char)0xE73E).ToString(), 11, "Accent");
+        check.Margin = new Thickness(0, 1, 8, 0);
+        return new Border
+        {
+            Background = Ui.B("AccentSoft"),
+            CornerRadius = new CornerRadius(8),
+            Padding = new Thickness(10, 5, 12, 6),
+            Margin = new Thickness(0, 0, 8, 8),
+            Child = Ui.H(check, Ui.T(text, 12)),
+        };
+    }
 
     private static UIElement Ring(int score, string brush)
     {
-        const double size = 112, stroke = 9;
+        const double size = 128, stroke = 10;
         var g = new Grid { Width = size, Height = size };
-        g.Children.Add(new Ellipse { Stroke = Ui.B("Line"), StrokeThickness = stroke });
+        g.Children.Add(new Ellipse { Stroke = Ui.B("LineStrong"), StrokeThickness = stroke });
         double r = (size - stroke) / 2, c = size / 2;
         double ang = Math.Min(score, 99.9) / 100 * 2 * Math.PI;
         var start = new Point(c, c - r);
@@ -433,8 +544,14 @@ public sealed class HomePage : Page
             StrokeThickness = stroke,
             StrokeStartLineCap = PenLineCap.Round,
             StrokeEndLineCap = PenLineCap.Round,
+            Effect = new System.Windows.Media.Effects.DropShadowEffect
+            {
+                Color = ((SolidColorBrush)Ui.B(brush)).Color, BlurRadius = 18, ShadowDepth = 0, Opacity = 0.55,
+            },
         });
-        var num = Ui.V(Ui.T(score.ToString(), 34, brush, FontWeights.Bold), Ui.Muted("/ 100", 11));
+        var big = Ui.T(score.ToString(), 40, "Text", FontWeights.Bold);
+        big.FontFamily = new FontFamily("Segoe UI Variable Display, Segoe UI");
+        var num = Ui.V(big, Ui.Muted("/ 100", 11));
         num.HorizontalAlignment = HorizontalAlignment.Center;
         num.VerticalAlignment = VerticalAlignment.Center;
         foreach (TextBlock t in num.Children) t.HorizontalAlignment = HorizontalAlignment.Center;

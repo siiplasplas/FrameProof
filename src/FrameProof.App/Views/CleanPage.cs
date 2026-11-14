@@ -125,7 +125,12 @@ public sealed class CleanPage : Page
                         (size.Saved > 50L * 1024 * 1024 ? $" · {Fmt.Bytes(size.Saved)} kazanılmış" : "") + $" · {g.Store}";
             if (size.Saved > 50L * 1024 * 1024) info.Foreground = Ui.B("Accent");
             var buttons = Ui.H(Ui.Btn(size.Saved > 50L * 1024 * 1024 ? "Yeniden sıkıştır" : "Sıkıştır", () => CompressAsync(g, size, info), primary: size.Saved < 50L * 1024 * 1024));
-            if (recorded) buttons.Children.Add(Ui.Btn("Geri al", () => DecompressAsync(g, info)));
+            if (recorded)
+            {
+                var undo = Ui.Btn("Geri al", () => DecompressAsync(g, info));
+                undo.Margin = new Thickness(8, 0, 0, 0);
+                buttons.Children.Add(undo);
+            }
             slot.Content = buttons;
         }
     }

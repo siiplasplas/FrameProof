@@ -1,14 +1,25 @@
+using System.Runtime.InteropServices;
 using System.Windows;
+using System.Windows.Automation;
 using System.Windows.Controls;
+using System.Windows.Interop;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
+using System.Windows.Shell;
 using FrameProof.App.Views;
 using FrameProof.Core.Update;
 using FrameProof.Core.Util;
 
 namespace FrameProof.App;
 
+/// <summary>
+/// Kendi başlık çubuğu olan pencere: Windows'un beyaz çubuğu yerine uygulamanın koyu üst şeridi.
+/// Sürükleme, çift tıkla büyütme, kenardan boyutlandırma ve Aero Snap Windows'ta kalır (WindowChrome).
+/// </summary>
 public sealed class MainWindow : Window
 {
+    private readonly ShellView _shell;
+
     public MainWindow()
     {
         Title = "FrameProof";
@@ -19,116 +30,272 @@ public sealed class MainWindow : Window
         MinHeight = 600;
         WindowStartupLocation = WindowStartupLocation.CenterScreen;
         Background = Ui.B("Bg");
-        var shell = new ShellView();
-        Content = shell;
+        WindowChrome.SetWindowChrome(this, new WindowChrome
+        {
+            CaptionHeight = ShellView.TitleBarHeight,
+            ResizeBorderThickness = new Thickness(6),
+            GlassFrameThickness = new Thickness(0, 0, 0, 1),
+            CornerRadius = new CornerRadius(0),
+            UseAeroCaptionButtons = false,
+        });
+        _shell = new ShellView();
+        Content = _shell;
+        SourceInitialized += (_, _) => Dwm.Style(this);
+        StateChanged += (_, _) => FitMaximized();
+        DpiChanged += (_, _) => FitMaximized();
         Loaded += async (_, _) =>
         {
-            if (Environment.GetCommandLineArgs().Contains("--updated")) shell.ShowUpdatedNote();
-            var home = shell.ShowAsync("home");
+            if (Environment.GetCommandLineArgs().Contains("--updated")) _shell.ShowUpdatedNote();
+            var home = _shell.ShowAsync("home");
             await Task.Delay(2500);
-            await shell.CheckUpdatesAsync(manual: false);
+            await _shell.CheckUpdatesAsync(manual: false);
             await home;
         };
     }
+
+    /// <summary>Büyütülmüş pencere ekranın her kenarından çerçeve kalınlığı kadar taşar; içerik kırpılmasın diye içeri çek.</summary>
+    private void FitMaximized()
+    {
+        if (WindowState != WindowState.Maximized) { _shell.Margin = new Thickness(0); return; }
+        var dpi = VisualTreeHelper.GetDpi(this);
+        var px = Dwm.FrameOverhang((uint)Math.Round(dpi.PixelsPerInchX));
+        _shell.Margin = new Thickness(px / dpi.DpiScaleX);
+    }
+
+    private static class Dwm
+    {
+        [DllImport("dwmapi.dll")] private static extern int DwmSetWindowAttribute(IntPtr hwnd, int attr, ref int value, int size);
+        [DllImport("user32.dll")] private static extern int GetSystemMetricsForDpi(int index, uint dpi);
+
+        /// <summary>Koyu pencere kenarlığı ve yuvarlak köşe (Windows 11). Windows 10'da sessizce yok sayılır.</summary>
+        public static void Style(Window w)
+        {
+            var h = new WindowInteropHelper(w).Handle;
+            try
+            {
+                int dark = 1; DwmSetWindowAttribute(h, 20, ref dark, 4);          // DWMWA_USE_IMMERSIVE_DARK_MODE
+                int round = 2; DwmSetWindowAttribute(h, 33, ref round, 4);        // DWMWA_WINDOW_CORNER_PREFERENCE = ROUND
+                int border = 0x00332822; DwmSetWindowAttribute(h, 34, ref border, 4); // DWMWA_BORDER_COLOR (#222833, BGR)
+            }
+            catch { }
+        }
+
+        public static double FrameOverhang(uint dpi)
+        {
+            try { return GetSystemMetricsForDpi(32, dpi) + GetSystemMetricsForDpi(92, dpi); } // SM_CXSIZEFRAME + SM_CXPADDEDBORDER
+            catch { return 8 * dpi / 96.0; }
+        }
+    }
 }
 
-/// <summary>Sol menü + sayfa alanı.</summary>
+/// <summary>Sol menü + üst şerit + sayfa alanı.</summary>
 public sealed class ShellView : Grid
 {
-    /// <summary>Logo işareti (site/logo.svg ile aynı çizim): yeşil kare içinde yuvarlak hatlı F.</summary>
-    private static FrameworkElement LogoMark(double size)
+    public const double TitleBarHeight = 40;
+
+    /// <summary>Sol üst marka: yalnız yazı, "Frame" beyaz, "Proof" yeşil. Altında ince çizgi.</summary>
+    private static FrameworkElement Brand()
     {
-        var c = new Canvas { Width = 64, Height = 64 };
-        c.Children.Add(new System.Windows.Shapes.Rectangle { Width = 64, Height = 64, RadiusX = 16, RadiusY = 16, Fill = Ui.B("Accent") });
-        c.Children.Add(new System.Windows.Shapes.Path
+        var t = new TextBlock
         {
-            Data = Geometry.Parse("M24,47 V25 A7,7 0 0 1 31,18 H44 M24,33 H37"),
-            Stroke = new SolidColorBrush(Color.FromRgb(0x0D, 0x0F, 0x13)), StrokeThickness = 8,
-            StrokeStartLineCap = PenLineCap.Round, StrokeEndLineCap = PenLineCap.Round, StrokeLineJoin = PenLineJoin.Round,
-        });
-        return new Viewbox { Width = size, Height = size, Child = c, Margin = new Thickness(0, 0, 10, 0), VerticalAlignment = VerticalAlignment.Center };
+            FontSize = 21, FontWeight = FontWeights.Bold, TextWrapping = TextWrapping.NoWrap,
+            FontFamily = new FontFamily("Segoe UI Variable Display, Segoe UI"), VerticalAlignment = VerticalAlignment.Center,
+        };
+        t.Inlines.Add(new System.Windows.Documents.Run("Frame") { Foreground = Ui.B("Text") });
+        t.Inlines.Add(new System.Windows.Documents.Run("Proof") { Foreground = Ui.B("Accent") });
+        AutomationProperties.SetName(t, "FrameProof");
+        return new Border
+        {
+            Height = 64, Padding = new Thickness(22, 0, 12, 0), Margin = new Thickness(0, 0, 0, 12),
+            BorderBrush = Ui.B("Line"), BorderThickness = new Thickness(0, 0, 0, 1), Child = t,
+        };
     }
 
     private readonly ContentControl _host = new();
     private readonly Dictionary<string, Page> _pages = new();
     private readonly Dictionary<string, RadioButton> _nav = new();
+    private readonly TextBlock _maxGlyph = new();
 
-    private static readonly (string Id, string Label)[] Items =
+    private static readonly (string Id, string Label, string Glyph)[] Items =
     {
-        ("home", "Genel bakış"),
-        ("scan", "Tarama"),
-        ("clean", "Temizlik"),
-        ("tweaks", "Ayarlar"),
-        ("startup", "Başlangıç"),
-        ("measure", "FPS Ölçümü"),
-        ("journal", "Geri al"),
+        ("home", "Genel bakış", ""),
+        ("scan", "Tarama", ""),
+        ("clean", "Temizlik", ""),
+        ("tweaks", "Ayarlar", ""),
+        ("startup", "Başlangıç", ""),
+        ("measure", "FPS Ölçümü", ""),
+        ("journal", "Geri al", ""),
     };
 
     public ShellView()
     {
         Background = Ui.B("Bg");
-        ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(220) });
+        ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(232) });
         ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
 
-        // Sol menü
-        var side = new DockPanel { Background = Ui.B("Panel"), LastChildFill = false };
-        var word = new TextBlock { Text = "FrameProof", FontSize = 20, FontWeight = FontWeights.Bold, Foreground = Ui.B("Text"), VerticalAlignment = VerticalAlignment.Center };
-        var logo = new StackPanel { Orientation = Orientation.Horizontal, Margin = new Thickness(20, 22, 0, 4) };
-        logo.Children.Add(LogoMark(28));
-        logo.Children.Add(word);
-        var top = Ui.V(logo, Ui.Muted("Ölç, düzelt, kanıtla", 12, new Thickness(22, 0, 0, 22)));
-        var nav = new StackPanel { Margin = new Thickness(10, 0, 10, 0) };
-        foreach (var (id, label) in Items)
+        // ---- Sol menü ----
+        var side = new DockPanel { LastChildFill = false };
+        var logo = Brand();
+
+        var nav = new StackPanel { Margin = new Thickness(12, 0, 12, 0) };
+        foreach (var (id, label, glyph) in Items)
         {
-            var rb = new RadioButton { Content = label, GroupName = "nav", Style = (Style)Application.Current.Resources["Nav"] };
+            var rb = new RadioButton { Content = label, Tag = glyph, GroupName = "nav", Style = (Style)Application.Current.Resources["Nav"] };
             rb.Checked += async (_, _) => await ShowAsync(id);
             _nav[id] = rb;
             nav.Children.Add(rb);
         }
-        top.Children.Add(nav);
+        var top = Ui.V(logo, nav);
         DockPanel.SetDock(top, Dock.Top);
         side.Children.Add(top);
-
-        var bottom = Ui.V(
-            Ui.T(Admin.IsElevated ? "● Yönetici modu" : "● Sınırlı mod", 12, Admin.IsElevated ? "Accent" : "Warn"),
-            Ui.Muted($"v{Updater.CurrentText} · açık kaynak · MIT", 11, new Thickness(0, 4, 0, 0)),
-            LinkButton("Güncellemeleri denetle", () => CheckUpdatesAsync(manual: true)));
-        bottom.Margin = new Thickness(22, 0, 0, 20);
+        var bottom = StatusCard();
         DockPanel.SetDock(bottom, Dock.Bottom);
         side.Children.Add(bottom);
-        Children.Add(side);
+        var sideBorder = new Border { Background = Ui.B("Side"), BorderBrush = Ui.B("Line"), BorderThickness = new Thickness(0, 0, 1, 0), Child = side };
+        Children.Add(sideBorder);
 
-        // Sağ taraf
+        // ---- Sağ taraf: üst şerit, güncelleme notu, sayfa ----
         var right = new DockPanel();
-        if (!Admin.IsElevated)
-        {
-            var banner = new Border
-            {
-                Background = new SolidColorBrush(Color.FromRgb(0x2A, 0x22, 0x10)),
-                BorderBrush = Ui.B("Warn"),
-                BorderThickness = new Thickness(0, 0, 0, 1),
-                Padding = new Thickness(32, 10, 32, 10),
-                Child = Ui.Row(
-                    Ui.T("Yönetici izni olmadan çalışıyor. Bazı temizlik ve ayarlar kapalı, FPS ölçümü çalışmaz.", 13, "Warn"),
-                    Ui.Btn("Yönetici olarak aç", () =>
-                    {
-                        if (App.Relaunch(Environment.GetCommandLineArgs().Skip(1).ToArray())) Application.Current.Shutdown();
-                    })),
-            };
-            DockPanel.SetDock(banner, Dock.Top);
-            right.Children.Add(banner);
-        }
-        _updateBar.Background = new SolidColorBrush(Color.FromRgb(0x10, 0x2A, 0x20));
-        _updateBar.BorderBrush = Ui.B("Accent");
-        _updateBar.BorderThickness = new Thickness(0, 0, 0, 1);
-        _updateBar.Padding = new Thickness(32, 10, 32, 10);
+        var bar = TitleBar();
+        DockPanel.SetDock(bar, Dock.Top);
+        right.Children.Add(bar);
+
+        _updateBar.Background = Ui.B("AccentSoft");
+        _updateBar.BorderBrush = new SolidColorBrush(Color.FromArgb(0x55, 0x3D, 0xDC, 0x97));
+        _updateBar.BorderThickness = new Thickness(1);
+        _updateBar.CornerRadius = new CornerRadius(10);
+        _updateBar.Padding = new Thickness(16, 10, 12, 10);
+        _updateBar.Margin = new Thickness(36, 4, 36, 4);
         _updateBar.Visibility = Visibility.Collapsed;
         DockPanel.SetDock(_updateBar, Dock.Top);
         right.Children.Add(_updateBar);
         right.Children.Add(_host);
         SetColumn(right, 1);
         Children.Add(right);
+
+        Loaded += (_, _) =>
+        {
+            if (Window.GetWindow(this) is { } w)
+            {
+                w.StateChanged += (_, _) => UpdateMaxGlyph(w);
+                UpdateMaxGlyph(w);
+            }
+        };
     }
+
+    /// <summary>Menünün altında: çalışma modu, sürüm, güncelleme denetimi.</summary>
+    private UIElement StatusCard()
+    {
+        var elevated = Admin.IsElevated;
+        var mode = Ui.H(
+            Ui.Icon(elevated ? "" : "", 14, elevated ? "Accent" : "Warn"),
+            Ui.T(elevated ? "Yönetici modu" : "Sınırlı mod", 12, elevated ? "Accent" : "Warn", FontWeights.SemiBold, new Thickness(8, 0, 0, 0)));
+        var card = new Border
+        {
+            Background = Ui.B("Panel"),
+            BorderBrush = Ui.B("Line"),
+            BorderThickness = new Thickness(1),
+            CornerRadius = new CornerRadius(10),
+            Padding = new Thickness(14, 12, 14, 12),
+            Margin = new Thickness(12, 0, 12, 14),
+            Child = Ui.V(
+                mode,
+                Ui.T($"v{Updater.CurrentText} · açık kaynak · MIT", 11, "Dim", margin: new Thickness(0, 6, 0, 0)),
+                LinkButton("Güncellemeleri denetle", () => CheckUpdatesAsync(manual: true))),
+        };
+        return card;
+    }
+
+    /// <summary>Pencerenin üst şeridi: sürüklenebilir boşluk, gerekiyorsa yönetici uyarısı, pencere düğmeleri.</summary>
+    private UIElement TitleBar()
+    {
+        var dock = new DockPanel { Height = TitleBarHeight, LastChildFill = false, Background = Brushes.Transparent };
+
+        var caps = new StackPanel { Orientation = Orientation.Horizontal, VerticalAlignment = VerticalAlignment.Top };
+        caps.Children.Add(Caption("", "Simge durumuna küçült", w => SystemCommands.MinimizeWindow(w)));
+        _maxGlyph.Text = "";
+        var max = Caption("", "Ekranı kapla", w =>
+        {
+            if (w.WindowState == WindowState.Maximized) SystemCommands.RestoreWindow(w);
+            else SystemCommands.MaximizeWindow(w);
+        });
+        max.Content = CaptionGlyph(_maxGlyph);
+        caps.Children.Add(max);
+        var close = Caption("", "Kapat", w => SystemCommands.CloseWindow(w));
+        close.Style = (Style)Application.Current.Resources["CaptionClose"];
+        caps.Children.Add(close);
+        DockPanel.SetDock(caps, Dock.Right);
+        dock.Children.Add(caps);
+
+        if (!Admin.IsElevated)
+        {
+            var open = Ui.Btn("Yönetici olarak aç", () =>
+            {
+                if (App.Relaunch(Environment.GetCommandLineArgs().Skip(1).ToArray())) Application.Current.Shutdown();
+            });
+            open.MinHeight = 0;
+            open.Padding = new Thickness(10, 3, 10, 4);
+            open.FontSize = 12;
+            open.Background = Ui.B("Warn");
+            open.BorderBrush = Ui.B("Warn");
+            open.Foreground = new SolidColorBrush(Color.FromRgb(0x1E, 0x16, 0x04));
+            WindowChrome.SetIsHitTestVisibleInChrome(open, true);
+            var text = Ui.T("Sınırlı mod: bazı temizlik ve ayarlar kapalı, FPS ölçümü çalışmaz", 12, "Warn");
+            text.TextWrapping = TextWrapping.NoWrap;
+            text.TextTrimming = TextTrimming.CharacterEllipsis;
+            text.VerticalAlignment = VerticalAlignment.Center;
+            var pill = new Border
+            {
+                Background = Ui.B("WarnSoft"),
+                CornerRadius = new CornerRadius(8),
+                Padding = new Thickness(10, 3, 3, 3),
+                Margin = new Thickness(0, 6, 10, 0),
+                VerticalAlignment = VerticalAlignment.Top,
+                ToolTip = "FrameProof yönetici izni olmadan çalışıyor. Sistem temizliği, Windows ayarları ve FPS ölçümü için yönetici izni gerekir.",
+            };
+            var row = new DockPanel();
+            DockPanel.SetDock(open, Dock.Right);
+            open.Margin = new Thickness(10, 0, 0, 0);
+            row.Children.Add(open);
+            var icon = Ui.Icon("", 13, "Warn");
+            icon.Margin = new Thickness(0, 0, 8, 0);
+            DockPanel.SetDock(icon, Dock.Left);
+            row.Children.Add(icon);
+            row.Children.Add(text);
+            pill.Child = row;
+            DockPanel.SetDock(pill, Dock.Right);
+            dock.Children.Add(pill);
+        }
+        return dock;
+    }
+
+    private static Button Caption(string glyph, string tip, Action<Window> act)
+    {
+        var b = new Button { Style = (Style)Application.Current.Resources["Caption"], ToolTip = tip };
+        b.Content = CaptionGlyph(new TextBlock { Text = glyph });
+        WindowChrome.SetIsHitTestVisibleInChrome(b, true);
+        b.Click += (s, _) => { if (Window.GetWindow((DependencyObject)s) is { } w) act(w); };
+        return b;
+    }
+
+    /// <summary>
+    /// Örtük TextBlock stili yazı tipini Segoe UI'ye çeker; simge yazı tipini açıkça ver,
+    /// rengi düğmeye bağla ki üstüne gelince stil tetikleyicisi rengi değiştirebilsin.
+    /// </summary>
+    private static TextBlock CaptionGlyph(TextBlock t)
+    {
+        t.FontFamily = (FontFamily)Application.Current.Resources["IconFont"];
+        t.FontSize = 10;
+        t.TextWrapping = TextWrapping.NoWrap;
+        t.SetBinding(TextBlock.ForegroundProperty, new System.Windows.Data.Binding(nameof(Button.Foreground))
+        {
+            RelativeSource = new System.Windows.Data.RelativeSource(System.Windows.Data.RelativeSourceMode.FindAncestor, typeof(Button), 1),
+        });
+        return t;
+    }
+
+    private void UpdateMaxGlyph(Window w) =>
+        _maxGlyph.Text = w.WindowState == WindowState.Maximized ? "" : "";
 
     // ---- Güncelleme ----
 
@@ -141,20 +308,25 @@ public sealed class ShellView : Grid
         b.Style = null;
         b.Background = Brushes.Transparent;
         b.BorderThickness = new Thickness(0);
-        b.Foreground = Ui.B("Muted");
         b.FontSize = 11;
         b.Padding = new Thickness(0);
-        b.Margin = new Thickness(0, 4, 0, 0);
+        b.Margin = new Thickness(0, 6, 0, 0);
         b.HorizontalAlignment = HorizontalAlignment.Left;
         b.Cursor = System.Windows.Input.Cursors.Hand;
-        b.Content = new TextBlock { Text = text, TextDecorations = TextDecorations.Underline };
+        b.Template = new ControlTemplate(typeof(Button)) { VisualTree = new FrameworkElementFactory(typeof(ContentPresenter)) };
+        var tb = new TextBlock { Text = text, FontSize = 11, Foreground = Ui.B("Muted"), TextDecorations = TextDecorations.Underline };
+        b.MouseEnter += (_, _) => tb.Foreground = Ui.B("Text");
+        b.MouseLeave += (_, _) => tb.Foreground = Ui.B("Muted");
+        b.Content = tb;
         return b;
     }
+
+    private static UIElement UpdateIcon() { var i = Ui.Icon("", 15, "Accent"); i.Margin = new Thickness(0, 0, 12, 0); return i; }
 
     public void ShowUpdatedNote()
     {
         _updateBar.Child = Ui.Row(
-            Ui.T($"FrameProof v{Updater.CurrentText} sürümüne güncellendi.", 13, "Accent"),
+            Ui.H(UpdateIcon(), Ui.T($"FrameProof v{Updater.CurrentText} sürümüne güncellendi.", 13, "Accent", FontWeights.SemiBold)),
             Ui.Btn("Tamam", () => { _updateBar.Visibility = Visibility.Collapsed; return Task.CompletedTask; }));
         _updateBar.Visibility = Visibility.Visible;
     }
@@ -173,7 +345,12 @@ public sealed class ShellView : Grid
         var text = Ui.T($"Yeni sürüm var: v{info.Version.TrimStart('v')} (sende v{Updater.CurrentText})." +
                         (string.IsNullOrWhiteSpace(info.Notes) ? "" : "  " + info.Notes), 13, "Accent");
         text.TextWrapping = TextWrapping.Wrap;
-        _updateBar.Child = Ui.Row(text, Ui.Btn("Güncelle", () => InstallAsync(info, text), primary: true));
+        var left = new DockPanel();
+        var icon = UpdateIcon();
+        DockPanel.SetDock(icon, Dock.Left);
+        left.Children.Add(icon);
+        left.Children.Add(text);
+        _updateBar.Child = Ui.Row(left, Ui.Btn("Güncelle", () => InstallAsync(info, text), primary: true));
         _updateBar.Visibility = Visibility.Visible;
     }
 
@@ -221,8 +398,20 @@ public sealed class ShellView : Grid
         if (_nav[id].IsChecked != true) _nav[id].IsChecked = true; // Checked tekrar bu metodu çağırır; sorun değil
         if (_host.Content == page) { await page.EnsureLoadedAsync(); return; }
         _host.Content = page;
+        Enter(page);
         if (page.ReloadOnShow) await page.ReloadAsync();
         else await page.EnsureLoadedAsync();
+    }
+
+    /// <summary>Sayfa geçişi: kısa bir solma + 8 px yukarı kayma. Ekran görüntüsü modunda yok (yarım kare çıkmasın).</summary>
+    private static void Enter(FrameworkElement page)
+    {
+        if (Screenshots.Active) return;
+        var ease = new CubicEase { EasingMode = EasingMode.EaseOut };
+        var shift = new TranslateTransform(0, 8);
+        page.RenderTransform = shift;
+        page.BeginAnimation(OpacityProperty, new DoubleAnimation(0, 1, TimeSpan.FromMilliseconds(180)) { EasingFunction = ease });
+        shift.BeginAnimation(TranslateTransform.YProperty, new DoubleAnimation(8, 0, TimeSpan.FromMilliseconds(220)) { EasingFunction = ease });
     }
 
     /// <summary>Test için: sayfayı hemen yeniden yükler (yükleme sürerken çağrılabilir).</summary>
@@ -242,31 +431,47 @@ public abstract class Page : UserControl
 {
     protected readonly ShellView Shell;
     protected readonly StackPanel Body = new();
-    protected readonly StackPanel Actions = new() { Orientation = Orientation.Horizontal, VerticalAlignment = VerticalAlignment.Top };
+    protected readonly StackPanel Actions = new() { Orientation = Orientation.Horizontal, VerticalAlignment = VerticalAlignment.Center };
     protected readonly TextBlock Subtitle;
     private Task? _load;
     private bool _stale;
 
     public virtual bool ReloadOnShow => _stale;
 
+    public const double MaxContent = 1100;
+
+    /// <summary>Öğeyi en fazla max genişliğe uzatır, fazlası sağda boş kalır (MaxWidth tek başına ortalardı).</summary>
+    private static Grid Capped(UIElement e, double max)
+    {
+        var g = new Grid();
+        g.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star), MaxWidth = max });
+        g.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(0, GridUnitType.Auto) });
+        g.Children.Add(e);
+        return g;
+    }
+
     protected Page(ShellView shell, string title, string subtitle)
     {
         Shell = shell;
-        Subtitle = Ui.Muted(subtitle, 13, new Thickness(0, 4, 0, 0));
-        var header = new DockPanel { Margin = new Thickness(32, 26, 32, 14) };
+        Subtitle = Ui.Muted(subtitle, 13, new Thickness(0, 5, 0, 0));
+        // İçerik genişliği sınırlı: ekranı kaplayınca satırlar 1900 piksele yayılıp okunmaz olmasın.
+        var header = new DockPanel { Margin = new Thickness(36, 6, 36, 18) };
         DockPanel.SetDock(Actions, Dock.Right);
+        Actions.Margin = new Thickness(24, 0, 0, 0);
         header.Children.Add(Actions);
-        header.Children.Add(Ui.V(Ui.T(title, 24, weight: FontWeights.SemiBold), Subtitle));
+        var titleText = new TextBlock { Text = title, FontSize = 28, FontWeight = FontWeights.Bold, Foreground = Ui.B("Text"), FontFamily = new FontFamily("Segoe UI Variable Display, Segoe UI") };
+        header.Children.Add(Ui.V(titleText, Subtitle));
 
         var scroll = new ScrollViewer
         {
             VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
-            Content = Body,
-            Padding = new Thickness(32, 0, 32, 28),
+            Content = Capped(Body, MaxContent),
+            Padding = new Thickness(36, 0, 30, 32),
         };
         var dock = new DockPanel();
-        DockPanel.SetDock(header, Dock.Top);
-        dock.Children.Add(header);
+        var head = Capped(header, MaxContent + 72);
+        DockPanel.SetDock(head, Dock.Top);
+        dock.Children.Add(head);
         dock.Children.Add(scroll);
         Content = dock;
     }
@@ -315,8 +520,10 @@ public abstract class Page : UserControl
     protected void Loading(string text)
     {
         Body.Children.Clear();
+        var spinner = Ui.Icon("", 16, "Accent");
+        spinner.Margin = new Thickness(0, 0, 10, 0);
         Body.Children.Add(Ui.Card(Ui.V(
-            Ui.T(text, 14),
-            new ProgressBar { IsIndeterminate = true, Margin = new Thickness(0, 12, 0, 0) })));
+            Ui.H(spinner, Ui.T(text, 14, weight: FontWeights.SemiBold)),
+            new ProgressBar { IsIndeterminate = true, Margin = new Thickness(0, 14, 0, 0) }), padding: 18));
     }
 }

@@ -177,7 +177,7 @@ public sealed class MeasurePage : Page
     /// <summary>Ölçüm sırasında okunan donanım bilgisi. Yalnız gerçekten okunabilenler gösterilir.</summary>
     private UIElement Hardware(RunSummary r)
     {
-        var v = Ui.V(new Border { Height = 1, Background = Ui.B("Line"), Margin = new Thickness(0, 12, 0, 10) },
+        var v = Ui.V(Ui.Divider(12, 10),
             Ui.T("Donanım (ölçüm sırasında)", 13, weight: FontWeights.SemiBold));
         void Add(string brush, string text) => v.Children.Add(Ui.H(Ui.Dot(brush), Ui.T(text, 12)));
 

@@ -8,8 +8,12 @@ namespace FrameProof.App;
 /// <summary>--shot &lt;klasör&gt;: pencere açmadan her sekmeyi PNG'ye çizer. Test ve README görselleri için.</summary>
 public static class Screenshots
 {
+    /// <summary>Ekran görüntüsü alınıyor: geçiş animasyonları kapalı.</summary>
+    public static bool Active { get; private set; }
+
     public static async Task Run(string dir)
     {
+        Active = true;
         Directory.CreateDirectory(dir);
         var shell = new ShellView();
         const int w = 1180;

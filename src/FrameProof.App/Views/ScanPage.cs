@@ -87,14 +87,35 @@ public sealed class ScanPage : Page
 
     private static Border Stat(string n, string label, string brush)
     {
-        var b = Ui.Card(Ui.V(Ui.T(n, 28, brush, FontWeights.SemiBold), Ui.Muted(label, 12)), new Thickness(0, 0, 10, 4), 14);
-        return b;
+        var num = Ui.T(n, 28, n == "0" ? "Dim" : "Text", FontWeights.Bold);
+        num.FontFamily = new FontFamily("Segoe UI Variable Display, Segoe UI");
+        var tile = SevTile(brush, 38);
+        tile.Margin = new Thickness(0, 0, 14, 0);
+        var text = Ui.V(num, Ui.Muted(label, 12));
+        text.VerticalAlignment = VerticalAlignment.Center;
+        num.Margin = new Thickness(0, -4, 0, -2);
+        return Ui.Card(Ui.H(tile, text), new Thickness(0, 0, 10, 4), 14);
+    }
+
+    /// <summary>Önem derecesine göre yumuşak renkli kare içinde simge.</summary>
+    internal static Border SevTile(string brush, double size = 34)
+    {
+        int code = brush switch { "Bad" or "Warn" => 0xE7BA, "Info" => 0xE946, _ => 0xE73E };
+        var icon = Ui.Icon(((char)code).ToString(), size * 0.42, brush);
+        icon.HorizontalAlignment = HorizontalAlignment.Center;
+        return new Border
+        {
+            Width = size, Height = size, CornerRadius = new CornerRadius(size * 0.28),
+            Background = Ui.B(brush + "Soft"), VerticalAlignment = VerticalAlignment.Center, Child = icon,
+        };
     }
 
     /// <summary>Tarama bulgusu kartı; ana ekran da kullanır.</summary>
     internal static UIElement FindingCard(Finding f, ShellView shell, Func<Task> reload)
     {
-        var head = Ui.H(Ui.T(f.Title, 14, weight: FontWeights.SemiBold), Ui.Badge(f.Category, "Muted"));
+        var head = Ui.H(Ui.T(f.Title, 14, weight: FontWeights.SemiBold));
+        if (!string.Equals(f.Category, f.Title, StringComparison.OrdinalIgnoreCase))
+            head.Children.Add(Ui.Badge(f.Category, "Muted"));
         var text = Ui.V(head, Ui.T(f.Value, 13, "Text", margin: new Thickness(0, 4, 0, 0)));
         if (!string.IsNullOrWhiteSpace(f.Advice))
             text.Children.Add(Ui.Muted(f.Advice, 12, new Thickness(0, 4, 0, 0)));
@@ -124,7 +145,9 @@ public sealed class ScanPage : Page
         else if (f.Action == "bios")
             action = Ui.Btn("Nasıl yapılır?", () => Ui.Info(BiosGuide.HowTo(f.Id)));
 
-        var bar = new Border { Width = 3, CornerRadius = new CornerRadius(2), Background = Ui.B(Ui.SevKey(f.Severity)), Margin = new Thickness(0, 0, 14, 0) };
+        var bar = SevTile(Ui.SevKey(f.Severity));
+        bar.VerticalAlignment = VerticalAlignment.Top;
+        bar.Margin = new Thickness(0, 0, 14, 0);
         var row = new DockPanel();
         DockPanel.SetDock(bar, Dock.Left);
         row.Children.Add(bar);
