@@ -35,23 +35,17 @@ public sealed class MainWindow : Window
 /// <summary>Sol menü + sayfa alanı.</summary>
 public sealed class ShellView : Grid
 {
-    /// <summary>Logo işareti (site/logo.svg ile aynı çizim): eksik köşeden çıkan onay işareti.</summary>
+    /// <summary>Logo işareti (site/logo.svg ile aynı çizim): yeşil kare içinde yuvarlak hatlı F.</summary>
     private static FrameworkElement LogoMark(double size)
     {
         var c = new Canvas { Width = 64, Height = 64 };
-        c.Children.Add(new System.Windows.Shapes.Rectangle
+        c.Children.Add(new System.Windows.Shapes.Rectangle { Width = 64, Height = 64, RadiusX = 16, RadiusY = 16, Fill = Ui.B("Accent") });
+        c.Children.Add(new System.Windows.Shapes.Path
         {
-            Width = 62, Height = 62, RadiusX = 15, RadiusY = 15, Margin = new Thickness(1),
-            Fill = new SolidColorBrush(Color.FromRgb(0x1F, 0x24, 0x2D)),
-            Stroke = new SolidColorBrush(Color.FromArgb(0x1F, 0xFF, 0xFF, 0xFF)), StrokeThickness = 1.5,
-        });
-        System.Windows.Shapes.Path P(string d, Brush b, double w) => new()
-        {
-            Data = Geometry.Parse(d), Stroke = b, StrokeThickness = w,
+            Data = Geometry.Parse("M24,47 V25 A7,7 0 0 1 31,18 H44 M24,33 H37"),
+            Stroke = new SolidColorBrush(Color.FromRgb(0x0D, 0x0F, 0x13)), StrokeThickness = 8,
             StrokeStartLineCap = PenLineCap.Round, StrokeEndLineCap = PenLineCap.Round, StrokeLineJoin = PenLineJoin.Round,
-        };
-        c.Children.Add(P("M13,25 V18 A5,5 0 0 1 18,13 H25 M51,39 V46 A5,5 0 0 1 46,51 H39 M25,51 H18 A5,5 0 0 1 13,46 V39", Ui.B("Text"), 4.5));
-        c.Children.Add(P("M21,33 L29,41 L51,13", Ui.B("Accent"), 5.5));
+        });
         return new Viewbox { Width = size, Height = size, Child = c, Margin = new Thickness(0, 0, 10, 0), VerticalAlignment = VerticalAlignment.Center };
     }
 
@@ -78,9 +72,7 @@ public sealed class ShellView : Grid
 
         // Sol menü
         var side = new DockPanel { Background = Ui.B("Panel"), LastChildFill = false };
-        var word = new TextBlock { FontSize = 20, FontWeight = FontWeights.Bold, VerticalAlignment = VerticalAlignment.Center };
-        word.Inlines.Add(new System.Windows.Documents.Run("Frame") { Foreground = Ui.B("Accent") });
-        word.Inlines.Add(new System.Windows.Documents.Run("Proof") { Foreground = Ui.B("Text") });
+        var word = new TextBlock { Text = "FrameProof", FontSize = 20, FontWeight = FontWeights.Bold, Foreground = Ui.B("Text"), VerticalAlignment = VerticalAlignment.Center };
         var logo = new StackPanel { Orientation = Orientation.Horizontal, Margin = new Thickness(20, 22, 0, 4) };
         logo.Children.Add(LogoMark(28));
         logo.Children.Add(word);
