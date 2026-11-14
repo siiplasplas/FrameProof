@@ -5,7 +5,11 @@
     <AssemblyName>FrameProof</AssemblyName>
     <RootNamespace>FrameProof.App</RootNamespace>
     <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
   </PropertyGroup>
+  <ItemGroup>
+    <Resource Include="icon.ico" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FrameProof.Core\FrameProof.Core.csproj" />
   </ItemGroup>

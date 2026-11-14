@@ -12,6 +12,7 @@ public sealed class MainWindow : Window
     public MainWindow()
     {
         Title = "FrameProof";
+        Icon = System.Windows.Media.Imaging.BitmapFrame.Create(new Uri("pack://application:,,,/icon.ico"));
         Width = 1180;
         Height = 780;
         MinWidth = 940;
@@ -34,6 +35,26 @@ public sealed class MainWindow : Window
 /// <summary>Sol menü + sayfa alanı.</summary>
 public sealed class ShellView : Grid
 {
+    /// <summary>Logo işareti (site/logo.svg ile aynı çizim): eksik köşeden çıkan onay işareti.</summary>
+    private static FrameworkElement LogoMark(double size)
+    {
+        var c = new Canvas { Width = 64, Height = 64 };
+        c.Children.Add(new System.Windows.Shapes.Rectangle
+        {
+            Width = 62, Height = 62, RadiusX = 15, RadiusY = 15, Margin = new Thickness(1),
+            Fill = new SolidColorBrush(Color.FromRgb(0x1F, 0x24, 0x2D)),
+            Stroke = new SolidColorBrush(Color.FromArgb(0x1F, 0xFF, 0xFF, 0xFF)), StrokeThickness = 1.5,
+        });
+        System.Windows.Shapes.Path P(string d, Brush b, double w) => new()
+        {
+            Data = Geometry.Parse(d), Stroke = b, StrokeThickness = w,
+            StrokeStartLineCap = PenLineCap.Round, StrokeEndLineCap = PenLineCap.Round, StrokeLineJoin = PenLineJoin.Round,
+        };
+        c.Children.Add(P("M13,25 V18 A5,5 0 0 1 18,13 H25 M51,39 V46 A5,5 0 0 1 46,51 H39 M25,51 H18 A5,5 0 0 1 13,46 V39", Ui.B("Text"), 4.5));
+        c.Children.Add(P("M21,33 L29,41 L51,13", Ui.B("Accent"), 5.5));
+        return new Viewbox { Width = size, Height = size, Child = c, Margin = new Thickness(0, 0, 10, 0), VerticalAlignment = VerticalAlignment.Center };
+    }
+
     private readonly ContentControl _host = new();
     private readonly Dictionary<string, Page> _pages = new();
     private readonly Dictionary<string, RadioButton> _nav = new();
@@ -57,9 +78,12 @@ public sealed class ShellView : Grid
 
         // Sol menü
         var side = new DockPanel { Background = Ui.B("Panel"), LastChildFill = false };
-        var logo = new TextBlock { FontSize = 20, FontWeight = FontWeights.Bold, Margin = new Thickness(22, 24, 0, 2) };
-        logo.Inlines.Add(new System.Windows.Documents.Run("Frame") { Foreground = Ui.B("Accent") });
-        logo.Inlines.Add(new System.Windows.Documents.Run("Proof") { Foreground = Ui.B("Text") });
+        var word = new TextBlock { FontSize = 20, FontWeight = FontWeights.Bold, VerticalAlignment = VerticalAlignment.Center };
+        word.Inlines.Add(new System.Windows.Documents.Run("Frame") { Foreground = Ui.B("Accent") });
+        word.Inlines.Add(new System.Windows.Documents.Run("Proof") { Foreground = Ui.B("Text") });
+        var logo = new StackPanel { Orientation = Orientation.Horizontal, Margin = new Thickness(20, 22, 0, 4) };
+        logo.Children.Add(LogoMark(28));
+        logo.Children.Add(word);
         var top = Ui.V(logo, Ui.Muted("Ölç, düzelt, kanıtla", 12, new Thickness(22, 0, 0, 22)));
         var nav = new StackPanel { Margin = new Thickness(10, 0, 10, 0) };
         foreach (var (id, label) in Items)

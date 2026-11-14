@@ -1,3 +1,5 @@
+<p align="center"><img src="site/logo.svg" alt="FrameProof logosu" width="96"></p>
+
 # FrameProof
 
 [English](README.md) · **Türkçe**

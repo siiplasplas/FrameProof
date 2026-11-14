@@ -1,3 +1,5 @@
+<p align="center"><img src="site/logo.svg" alt="FrameProof logo" width="96"></p>
+
 <h1 align="center">FrameProof</h1>
 
 <p align="center">

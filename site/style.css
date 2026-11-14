@@ -90,10 +90,16 @@ b { font-weight: 700; color: var(--text); }
 .logo { display: inline-flex; align-items: center; gap: 10px; font-weight: 800; font-size: 1.22rem; letter-spacing: -0.02em; color: var(--text); text-decoration: none; }
 .logo:hover { color: var(--text); }
 .logo__a { color: var(--acc); }
-.logo__mark { width: 28px; height: 28px; flex: none; }
-.logo__mark rect { fill: var(--card-2); stroke: var(--line-2); }
-.logo__mark path { fill: none; stroke: var(--acc); stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; }
-.logo--sm { font-size: 1rem; }
+.logo__mark { width: 32px; height: 32px; flex: none; overflow: visible; }
+.logo__mark rect { fill: #161a21; stroke: rgba(255, 255, 255, .1); stroke-width: 1.5; }
+.logo__mark path { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.logo__f { stroke: #e9eef4; stroke-width: 4.5; }
+.logo__c { stroke: var(--acc); stroke-width: 5.5; stroke-dasharray: 48; stroke-dashoffset: 0; }
+.logo:hover .logo__c { animation: logo-draw .55s cubic-bezier(.2, .7, .2, 1); }
+@keyframes logo-draw { from { stroke-dashoffset: 48; } to { stroke-dashoffset: 0; } }
+@media (prefers-reduced-motion: reduce) { .logo:hover .logo__c { animation: none; } }
+.logo--sm { font-size: 1rem; gap: 8px; }
+.logo--sm .logo__mark { width: 22px; height: 22px; }
 .top__nav { display: none; gap: 2px; margin-left: auto; }
 .top__nav a { color: var(--muted); text-decoration: none; font-weight: 600; font-size: .95rem; padding: 8px 14px; border-radius: 8px; transition: color .15s ease, background-color .15s ease; }
 .top__nav a:hover { color: var(--text); background: var(--card); }
@@ -344,6 +350,7 @@ b { font-weight: 700; color: var(--text); }
 .foot { border-top: 1px solid var(--line); padding: 28px 0 36px; color: var(--dim); font-size: .92rem; }
 .foot__in { display: flex; flex-wrap: wrap; gap: 14px 28px; align-items: center; justify-content: space-between; }
 .foot__sep { color: var(--line-2); }
+.foot__brand { display: flex; align-items: center; gap: 10px; margin: 0; }
 .foot nav { display: flex; flex-wrap: wrap; gap: 6px 20px; }
 .foot nav a { color: var(--muted); text-decoration: none; }
 .foot nav a:hover { color: var(--text); text-decoration: underline; }
