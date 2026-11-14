@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <AssemblyName>frameproof-cli</AssemblyName>
+    <RootNamespace>FrameProof.Cli</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FrameProof.Core\FrameProof.Core.csproj" />
+  </ItemGroup>
+</Project>

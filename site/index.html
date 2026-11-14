@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FrameProof · Ölç, düzelt, kanıtla</title>
+<meta name="description" content="Oyuncular için ücretsiz ve açık kaynak Windows performans aracı. Gerçek sorunları bulur, sadece etkisi ölçülmüş ayarları uygular, her değişikliği geri alınabilir tutar ve FPS'i önce/sonra ölçer.">
+<meta name="theme-color" content="#0f1115">
+<link rel="canonical" href="https://getframeproof.pages.dev/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="FrameProof">
+<meta property="og:title" content="FrameProof · Ölç, düzelt, kanıtla">
+<meta property="og:description" content="Ücretsiz, açık kaynak Windows oyun performans aracı. Placebo yok: sadece ölçülmüş ayarlar, hepsi geri alınabilir.">
+<meta property="og:url" content="https://getframeproof.pages.dev/">
+<meta property="og:image" content="https://getframeproof.pages.dev/img/home.webp">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230f1115'/%3E%3Cpath d='M6 22l6-7 5 4 9-11' fill='none' stroke='%233ddc97' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap&subset=latin-ext" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip" href="#icerik">İçeriğe geç</a>
+
+<header class="top">
+  <div class="wrap top__in">
+    <a class="logo" href="#" aria-label="FrameProof ana sayfa"><span class="logo__a">Frame</span>Proof</a>
+    <nav class="top__nav" aria-label="Sayfa içi">
+      <a href="#ozellikler">Özellikler</a>
+      <a href="#farki">Neden farklı</a>
+      <a href="#ekranlar">Ekranlar</a>
+      <a href="#sss">SSS</a>
+    </nav>
+    <a class="top__gh" href="https://github.com/siiplasplas/FrameProof" rel="noopener">
+      <svg aria-hidden="true" viewBox="0 0 16 16" width="18" height="18"><path fill="currentColor" d="M8 0a8 8 0 0 0-2.53 15.59c.4.07.55-.17.55-.38v-1.33c-2.23.48-2.7-1.07-2.7-1.07-.36-.92-.89-1.17-.89-1.17-.73-.5.06-.49.06-.49.8.06 1.23.83 1.23.83.71 1.22 1.87.87 2.33.66.07-.52.28-.87.5-1.07-1.78-.2-3.65-.89-3.65-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.66 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0 0 8 0Z"/></svg>
+      <span>GitHub</span>
+    </a>
+  </div>
+</header>
+
+<main id="icerik">
+
+<!-- HERO -->
+<section class="hero">
+  <svg class="hero__trace" aria-hidden="true" viewBox="0 0 1200 200" preserveAspectRatio="none"><path d="M0 120 L40 118 L60 122 L80 117 L100 121 L120 60 L130 119 L170 120 L200 116 L230 122 L260 119 L280 40 L290 118 L330 121 L360 117 L400 120 L430 118 L460 122 L480 90 L490 119 L540 120 L580 117 L620 121 L660 119 L700 118 L740 121 L780 119 L820 120 L860 118 L900 121 L940 119 L980 120 L1020 118 L1060 120 L1100 119 L1140 120 L1200 119"/></svg>
+  <div class="wrap hero__grid">
+    <div class="hero__copy">
+      <p class="eyebrow">Ücretsiz · Açık kaynak · Windows 10/11</p>
+      <h1>Ölç, düzelt,<br><span class="hl">kanıtla.</span></h1>
+      <p class="lead">FrameProof oyun bilgisayarındaki gerçek sorunları bulur, sadece etkisi ölçülmüş ayarları uygular ve sonucu FPS ölçümüyle sana gösterir. Placebo yok, sihirli düğme yok. Yaptığı her ayar tek tıkla geri alınır.</p>
+      <div class="cta">
+        <a class="btn btn--main" href="https://github.com/siiplasplas/FrameProof/releases/latest/download/FrameProof.exe">
+          <svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20"><path d="M12 4v11m0 0l-4.5-4.5M12 15l4.5-4.5M5 19h14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>FrameProof'u indir <small>66 MB · .exe</small></span>
+        </a>
+        <a class="btn btn--ghost" href="https://github.com/siiplasplas/FrameProof" rel="noopener">Kaynak kodu</a>
+      </div>
+      <ul class="facts" aria-label="Gereksinimler">
+        <li>Kurulum yok, tek dosya</li>
+        <li>Windows 10/11, 64 bit</li>
+        <li>Açılışta yönetici izni ister</li>
+      </ul>
+      <p class="note">İlk açılışta mavi <q>Windows bilgisayarınızı korudu</q> ekranı çıkabilir: <b>Ek bilgi → Yine de çalıştır</b>. <a href="#sss-uyari">Neden çıkıyor?</a></p>
+    </div>
+    <figure class="hero__shot">
+      <div class="win">
+        <div class="win__bar" aria-hidden="true"><span class="win__title"><b>Frame</b>Proof</span><span class="win__dots"><i></i><i></i><i></i></span></div>
+        <img src="img/home.webp" width="1160" height="656" fetchpriority="high" alt="FrameProof Genel bakış ekranı: 100 üzerinden 85 puan, bulunan tek sorun olarak dolu sistem diski ve laptoptaki oyunların güçlü ekran kartına atandığını gösteren liste.">
+      </div>
+      <figcaption>Gerçek ekran görüntüsü: Genel bakış</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- STEPS -->
+<section class="steps" aria-label="Nasıl çalışır">
+  <ol class="wrap steps__list">
+    <li><span class="steps__n">01</span><h2>Tara</h2><p>Sistemi okur, hiçbir şeyi değiştirmez. Sorunları önem sırasına koyar.</p></li>
+    <li><span class="steps__n">02</span><h2>Düzelt</h2><p>Sadece etkisi ölçülmüş ayarlar, senin onayınla. Eski değer hep kayıtlı.</p></li>
+    <li><span class="steps__n">03</span><h2>Temizle</h2><p>Gereksiz dosyaları siler, oyunları silmeden sıkıştırıp yer açar.</p></li>
+    <li><span class="steps__n">04</span><h2>Kanıtla</h2><p>Önce ve sonra FPS'i ölçer, farkı istatistikle söyler. Fark yoksa <q>fark yok</q> der.</p></li>
+  </ol>
+</section>
+
+<!-- FEATURES -->
+<section class="sec" id="ozellikler">
+  <div class="wrap">
+    <header class="sec__head">
+      <p class="kicker">Özellikler</p>
+      <h2>İçinde ne var?</h2>
+      <p>Her sekme tek bir iş yapar ve ne yaptığını açıkça yazar. Hiçbir şey sen onay vermeden değişmez.</p>
+    </header>
+    <div class="cards">
+      <article class="card">
+        <h3>Genel bakış ve <span class="nw">Optimize et</span></h3>
+        <p>100 üzerinden puan ve tek tıkla optimizasyon. Önce ne yapacağını listeler, onay ister. Tartışmalı ya da yeniden başlatma isteyen ayarları kendiliğinden yapmaz.</p>
+      </article>
+      <article class="card">
+        <h3>Tarama</h3>
+        <p>RAM XMP'siz mi çalışıyor, tek RAM mi takılı, monitör 60 Hz'de mi kalmış, güç planı tasarrufta mı, disk dolu mu, sürücü eski mi? BIOS'u yalnız okur, ne yapman gerektiğini adım adım anlatır.</p>
+      </article>
+      <article class="card">
+        <h3>Laptop: iki ekran kartı</h3>
+        <p>Windows bazı oyunları işlemcinin içindeki zayıf karta atayabilir. Hangi oyunun hangi kartta çalıştığını gösterir, tek tıkla güçlü karta sabitler.</p>
+      </article>
+      <article class="card card--new">
+        <h3>Oyunları sıkıştır <span class="tag">Yeni</span></h3>
+        <p>Steam ve Epic oyunlarını Windows'un kendi sıkıştırmasıyla küçültür. Hiçbir dosya silinmez, oyun her zamanki gibi açılır. Kazanç oyuna göre değişir, istersen geri alırsın.</p>
+      </article>
+      <article class="card">
+        <h3>Temizlik</h3>
+        <p>Geçici dosyalar, güncelleme önbelleği, çökme dökümleri, sürücü kurulum artıkları, tarayıcı önbellekleri. Silmeden önce boyutunu gösterir, sen seçersin. Kişisel klasörlere dokunmaz.</p>
+      </article>
+      <article class="card">
+        <h3>Ayarlar</h3>
+        <p>Monitörü en yüksek Hz'e alma, Oyun Modu, Xbox arka plan kaydı, güç planı, Windows'un reklam ve arka plan özellikleri. Her birinin etkisi ve riski yanında yazıyor.</p>
+      </article>
+      <article class="card">
+        <h3>Sert mod</h3>
+        <p>İsteğe bağlı, daha sert sadeleştirme: Edge güncelleyicisi, Copilot, Başlat'ta Bing, hazırda bekletme, görsel efektler. Her birinin bedeli yazıyor, tek tek sen seçersin.</p>
+      </article>
+      <article class="card">
+        <h3>Oyuna hazırla</h3>
+        <p>RAM yiyen tarayıcı, OneDrive, Spotify, Teams gibi programları tek onayla kapatır, kaç GB açıldığını söyler. Steam, Discord, başlatıcılar ve anti-cheat'e asla dokunmaz.</p>
+      </article>
+      <article class="card">
+        <h3>Başlangıç</h3>
+        <p>Bilgisayar açılınca kendiliğinden başlayan programları aç ya da kapat. Görev Yöneticisi ile aynı yöntem, program silinmez.</p>
+      </article>
+      <article class="card">
+        <h3>FPS ölçümü</h3>
+        <p>Intel PresentMon ile oyunun gerçek kare sürelerini okur: ortalama FPS, 1% low, 0,1% low, takılma oranı, darboğaz GPU'da mı CPU'da mı, RAM yetti mi.</p>
+      </article>
+      <article class="card">
+        <h3>Geri al</h3>
+        <p>FrameProof'un yaptığı her değişiklik eski değeriyle birlikte burada. Tek tek ya da hepsini birden geri al.</p>
+      </article>
+      <article class="card card--new">
+        <h3>Otomatik güncelleme <span class="tag">Yeni</span></h3>
+        <p>Yeni sürüm çıkınca uygulama sana haber verir. Tıklarsın, kendini günceller. Sayfaya gelip yeniden indirmekle uğraşmazsın.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- WHY DIFFERENT -->
+<section class="sec sec--alt" id="farki">
+  <div class="wrap">
+    <header class="sec__head">
+      <p class="kicker">Neden diğerlerinden farklı</p>
+      <h2>Çoğu <q>FPS artırıcı</q> ayar değiştirir ve hiçbir şey ölçmez.<br class="br-wide"> FrameProof tersini yapar.</h2>
+    </header>
+
+    <div class="pillars">
+      <div class="pillar">
+        <span class="pillar__ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 18h16M6 15l3-4 3 2 5-7" /></svg></span>
+        <h3>Sadece ölçülmüş ayarlar</h3>
+        <p>İnternette dolaşan her tavsiyeyi uygulamaz. Etkisi ölçülebilir olanları yapar; her birinin ne yaptığını, beklenen etkisini ve riskini yazar.</p>
+      </div>
+      <div class="pillar">
+        <span class="pillar__ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 7H5V3M5.5 7A8 8 0 1 1 4 12" /></svg></span>
+        <h3>Her ayar geri alınır</h3>
+        <p>Bir ayarı değiştirmeden önce eski değerini kaydeder. <b>Geri al</b> sekmesinden tek tek ya da hepsini birden eski haline döndürürsün.</p>
+      </div>
+      <div class="pillar">
+        <span class="pillar__ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12l4 4 10-10" /></svg></span>
+        <h3>Sonucu sen görürsün</h3>
+        <p>Önce ve sonra ölçüm alır, gerçek 1% low değerlerini karşılaştırır. Fark gerçekse <q>gerçek iyileşme</q>, değilse dürüstçe <q>fark yok</q> der.</p>
+      </div>
+    </div>
+
+    <div class="split">
+      <div class="nots">
+        <h3>Bilerek yapmadıklarımız</h3>
+        <p class="muted">Bunlar internette çok önerilir ama ölçülebilir fayda sağlamaz ya da zarar verir.</p>
+        <ul class="xlist">
+          <li><b>RAM temizleyici</b><span>Windows'un önbelleğini boşaltır, oyun aynı dosyaları yeniden diskten okur, takılma artar.</span></li>
+          <li><b>HPET kapatma, <code>bcdedit</code> zamanlayıcı ayarları</b><span>Modern Windows'ta etkisiz ya da işleri kötüleştiriyor.</span></li>
+          <li><b>Zamanlayıcı çözünürlüğü programları</b><span>Windows 11 bunu zaten süreç başına yönetiyor.</span></li>
+          <li><b>Prefetch / SysMain kapatma</b><span>SSD'de faydası yok, yükleme sürelerini uzatabilir.</span></li>
+          <li><b><q>Network throttling</q> ve TCP ayarları</b><span>Oyun ping'ine etkisi yok.</span></li>
+          <li><b>Defender, Windows Update ya da Edge'i kapatmak / silmek</b><span>FPS getirmez; bilgisayar korumasız kalır ya da Windows geri kurar.</span></li>
+          <li><b>Sürücü yüklemek, oyuna ya da anti-cheat'e müdahale</b><span>Asla. Oyunun belleğine dokunmaz; Vanguard, FACEIT, EAC ile sorun çıkarmaz.</span></li>
+        </ul>
+      </div>
+      <div class="howto">
+        <h3>Nasıl ölçüyoruz?</h3>
+        <dl class="defs">
+          <div><dt>1% low</dt><dd>En kötü %1'lik karelerin ortalama FPS'i. Oyunun ne kadar akıcı hissettirdiğini ortalamadan iyi anlatır; takılmayı bu sayı yakalar.</dd></div>
+          <div><dt>Ortalama FPS</dt><dd>Toplam kare / toplam süre. Zamana göre ağırlıklı.</dd></div>
+          <div><dt>Takılma</dt><dd>Ortanca kare süresinin 2 katından uzun karelerin oranı.</dd></div>
+          <div><dt>Darboğaz</dt><dd>Ekran kartı %90 üstü meşgulse GPU, %75 altındaysa CPU / oyun sınırı.</dd></div>
+          <div><dt>Karşılaştırma</dt><dd>Her taraf için en az 3 ölçüm, %95 güven aralığı. Fark belirsizse sonuç <q>fark yok</q>.</dd></div>
+        </dl>
+        <p class="muted small">Ne kadar FPS kazanacağını söyleyemeyiz, bilgisayarına bağlı. Zaten iyi ayarlı bir sistemde fark küçük olur; XMP kapalı, tek RAM ya da 60 Hz'de unutulmuş bir monitör varsa büyük olabilir. Rakamı kendi ölçümünle görürsün.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SCREENSHOTS -->
+<section class="sec" id="ekranlar">
+  <div class="wrap">
+    <header class="sec__head">
+      <p class="kicker">Ekranlar</p>
+      <h2>Ne yaptığını saklamayan bir arayüz</h2>
+      <p>Aşağıdakiler uygulamanın gerçek ekran görüntüleri. Büyütmek için görsele dokun.</p>
+    </header>
+
+    <div class="shots">
+      <figure class="shot">
+        <a href="img/temizlik.webp" class="shot__img"><img src="img/temizlik.webp" width="920" height="476" loading="lazy" decoding="async" alt="Temizlik sekmesi: Oyunları sıkıştır bölümünde Counter-Strike 2 için 69 GB'lık oyunun diskte 61 GB yer kapladığı ve 7,9 GB kazanıldığı görülüyor; diğer oyunların yanında Sıkıştır düğmesi var."></a>
+        <figcaption>
+          <h3>Silmeden yer aç</h3>
+          <p>Oyunları sıkıştır, Windows'un kendi dosya sıkıştırmasını kullanır. Dosyalar silinmez, oyun onları her zamanki gibi okur. Çoğu oyunda %10–40 yer açılır, zaten paketlenmiş oyunlarda daha az. exe/dll dosyalarına ve anti-cheat klasörlerine dokunulmaz.</p>
+        </figcaption>
+      </figure>
+
+      <figure class="shot">
+        <a href="img/ayarlar.webp" class="shot__img"><img src="img/ayarlar.webp" width="920" height="566" loading="lazy" decoding="async" alt="Ayarlar sekmesi: Monitörü en yüksek Hz'e al, Güç planı: Yüksek performans ve Oyun Modu ayarları; her birinin altında Etkisi ve Dikkat açıklamaları ile bir Geri al düğmesi."></a>
+        <figcaption>
+          <h3>Her ayarın etkisi ve bedeli yazıyor</h3>
+          <p>Her ayarın altında ne işe yaradığı (<b>Etkisi</b>) ve neye mal olduğu (<b>Dikkat</b>) var. Uygulanmış olanın yanında <b>Geri al</b> düğmesi durur.</p>
+        </figcaption>
+      </figure>
+
+      <figure class="shot">
+        <a href="img/tarama.webp" class="shot__img"><img src="img/tarama.webp" width="920" height="506" loading="lazy" decoding="async" alt="Sistem taraması sekmesi: 1 kritik, 0 uyarı, 12 bilgi ve 12 iyi sonucu; altında dolu sistem diski uyarısı ile işlemci, ekran kartı ve Resizable BAR bilgileri."></a>
+        <figcaption>
+          <h3>Önce teşhis</h3>
+          <p>Tarama hiçbir şeyi değiştirmez. Sorunları önem sırasına koyar; düzeltilebilenlerin yanında düğme var, BIOS'ta yapılması gerekenleri adım adım anlatır.</p>
+        </figcaption>
+      </figure>
+
+      <figure class="shot">
+        <a href="img/oyuna-hazirla.webp" class="shot__img"><img src="img/oyuna-hazirla.webp" width="920" height="640" loading="lazy" decoding="async" alt="Genel bakış ekranının alt kısmı: RAM kullanım çubuğu, Oyuna hazırla düğmesi ve kapatılabilecek programlar; altında Sert mod listesi ve her maddenin bedeli."></a>
+        <figcaption>
+          <h3>Oyuna hazırla ve Sert mod</h3>
+          <p>Oyundan önce RAM yiyen programları tek onayla kapat. Sert mod'daki her maddenin bedeli açıkça yazıyor; Optimize et bunları kendiliğinden yapmaz.</p>
+        </figcaption>
+      </figure>
+
+      <figure class="shot">
+        <a href="img/geri-al.webp" class="shot__img"><img src="img/geri-al.webp" width="920" height="466" loading="lazy" decoding="async" alt="Geri al sekmesi: FrameProof'un yaptığı değişikliklerin tarih ve değişiklik sayısıyla listesi, her satırda bir Geri al düğmesi ve üstte Hepsini geri al."></a>
+        <figcaption>
+          <h3>Hepsi kayıtlı</h3>
+          <p>Yapılan her değişiklik tarihiyle listede. Bir ayar hoşuna gitmediyse tek tıkla eski haline döner; hepsini birden de geri alabilirsin.</p>
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="sec sec--alt" id="sss">
+  <div class="wrap wrap--narrow">
+    <header class="sec__head">
+      <p class="kicker">SSS</p>
+      <h2>Sık sorulanlar</h2>
+    </header>
+
+    <div class="faq">
+      <details>
+        <summary>Güvenli mi? Valorant, FACEIT gibi anti-cheat'lerle sorun çıkar mı?</summary>
+        <div><p>FrameProof sürücü yüklemez, oyunun belleğine ya da sürecine dokunmaz, anti-cheat'i kandırmaya çalışmaz. Vanguard, FACEIT ve EAC ile sorun çıkarmaz. Defender, Windows Update, Güvenlik Duvarı ve arama dizinine hiç dokunmaz. Temizlik kişisel klasörlerine girmez, kullanımdaki dosyaları atlar. Kaynak kodu açık, ne yaptığını herkes görebilir.</p></div>
+      </details>
+      <details id="sss-uyari">
+        <summary>Windows neden <q>bilgisayarınızı korudu</q> diye uyarıyor? Virüs mü?</summary>
+        <div><p>Hayır. Bu uyarı programın kod imzası olmadığı için çıkar; imza sertifikası her yıl para istiyor. Mavi ekranda <b>Ek bilgi</b> (bazı sürümlerde <b>Daha fazla bilgi</b>) yazısına, sonra <b>Yine de çalıştır</b>'a tıkla. İçinin rahat etmesini istersen <a href="https://github.com/siiplasplas/FrameProof" rel="noopener">kaynak kodu GitHub'da</a>, kendin de derleyebilirsin.</p></div>
+      </details>
+      <details>
+        <summary>Neden yönetici izni istiyor?</summary>
+        <div><p>Windows ayarlarının ve sistem klasörlerinin bir kısmı yalnız yönetici izniyle değiştirilebiliyor. <b>Hayır</b> dersen program yine açılır ama sınırlı modda çalışır: bazı temizlik maddeleri ve ayarlar kapalı olur, FPS ölçümü çalışmaz.</p></div>
+      </details>
+      <details>
+        <summary>Bilgisayarımda neyi değiştiriyor?</summary>
+        <div><p>Sen onay vermeden hiçbir şeyi. <b>Optimize et</b> önce yapacaklarının listesini gösterir; yalnızca güvenli olanları yapar: seçili temizlik maddeleri, oyunları güçlü ekran kartına sabitleme, Oyun Modu, Xbox arka plan kaydı, monitör Hz'i ve Windows'un reklam ve arka plan özellikleri. Bellek Bütünlüğü, HAGS, telemetri servisi gibi tartışmalı ya da yeniden başlatma isteyen ayarları kendiliğinden yapmaz, programları da kapatmaz. Bitince neyi yaptığını ve kaç MB açıldığını gösterir.</p></div>
+      </details>
+      <details>
+        <summary>Bir şey hoşuma gitmezse nasıl geri alırım?</summary>
+        <div><p><b>Geri al</b> sekmesini aç. FrameProof'un yaptığı her ayar orada eski değeriyle duruyor; tek tek ya da <b>Hepsini geri al</b> ile birden döndürürsün. Sıkıştırılmış oyunlar da buradan geri açılır (bunun için diskte kazanılan kadar boş yer lazım, yoksa FrameProof söyler ve başlamaz).</p><p>İki istisna var: temizlikte silinen gereksiz dosyalar geri gelmez (silmeden önce neyin ne kadar yer kapladığını görür, kendin seçersin),<b>Oyuna hazırla</b> ile kapatılan programlar da geri alınmaz, sadece yeniden açarsın. Kapatmadan önce açık işini kaydet.</p></div>
+      </details>
+      <details>
+        <summary>FPS'im ne kadar artar?</summary>
+        <div><p>Dürüst cevap: bilgisayarına bağlı. Zaten iyi ayarlı bir sistemde fark küçük olur. RAM XMP'siz çalışıyorsa, tek RAM takılıysa ya da 144 Hz monitör 60 Hz'de unutulmuşsa fark büyük olabilir. Rakam vaat etmiyoruz; <b>FPS ölçümü</b> sekmesiyle önce ve sonra ölçer, sonucu kendin görürsün. Fark yoksa FrameProof bunu da açıkça söyler.</p></div>
+      </details>
+      <details>
+        <summary>Güncellemeler nasıl geliyor?</summary>
+        <div><p>Uygulama yeni sürüm olup olmadığını kendisi kontrol eder. Yeni sürüm varsa haber verir; tıklarsan kendini günceller. İstersen bu sayfadan en son sürümü her zaman yeniden indirebilirsin.</p></div>
+      </details>
+      <details>
+        <summary>Ücretli mi? Hesap açmam gerekiyor mu?</summary>
+        <div><p>Tamamen ücretsiz ve açık kaynak (MIT lisansı). Hesap yok, reklam yok, telemetri yok. Ayarların ve ölçümlerin bilgisayarında <code>%LOCALAPPDATA%\FrameProof</code> klasöründe durur.</p></div>
+      </details>
+      <details>
+        <summary>İnternete bağlanıyor mu?</summary>
+        <div><p>Sadece iki iş için: yeni sürüm olup olmadığını kontrol etmek ve FPS ölçümü için Intel PresentMon'u <b>senin onayınla</b> GitHub'dan indirmek (Intel imzası doğrulanır). Telemetri yok: ne kullanımın ne de bilgisayarın hakkında veri toplanır.</p></div>
+      </details>
+      <details>
+        <summary>Laptopumda da işe yarar mı?</summary>
+        <div><p>Evet, laptoplar için ayrıca bakıyor. İki ekran kartlı laptoplarda Windows bazı oyunları zayıf karta atayabiliyor; FrameProof bunu gösterir ve tek tıkla güçlü karta sabitler. FPS ölçümü sırasında oyunun gerçekten hangi kartta çalıştığını, ısıdan yavaşlama olup olmadığını ve laptopun pilde olup olmadığını da okur.</p></div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final">
+  <div class="wrap final__in">
+    <h2>Tahmin yok, sayı var.</h2>
+    <p>İndir, tara, ölç. Beğenmediğin her ayarı geri al.</p>
+    <a class="btn btn--main" href="https://github.com/siiplasplas/FrameProof/releases/latest/download/FrameProof.exe">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20"><path d="M12 4v11m0 0l-4.5-4.5M12 15l4.5-4.5M5 19h14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>FrameProof'u indir <small>66 MB · Windows 10/11</small></span>
+    </a>
+    <p class="note note--c">Kurulum gerekmez. Uyarı çıkarsa: <b>Ek bilgi → Yine de çalıştır</b>.</p>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap foot__in">
+    <p><span class="logo logo--sm"><span class="logo__a">Frame</span>Proof</span> <span class="foot__sep">·</span> açık kaynak · MIT</p>
+    <nav aria-label="Bağlantılar">
+      <a href="https://github.com/siiplasplas/FrameProof" rel="noopener">Kaynak kodu</a>
+      <a href="https://github.com/siiplasplas/FrameProof/releases" rel="noopener">Sürümler</a>
+      <a href="https://github.com/siiplasplas/FrameProof/issues" rel="noopener">Hata bildir</a>
+    </nav>
+  </div>
+</footer>
+
+<script src="main.js" defer></script>
+</body>
+</html>
