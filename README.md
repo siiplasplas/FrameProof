@@ -1,219 +1,153 @@
-# FrameProof
+<h1 align="center">FrameProof</h1>
 
-**Ölç, düzelt, kanıtla.** Oyuncular için ücretsiz ve açık kaynak Windows performans aracı.
+<p align="center">
+  <b>Measure. Fix. Prove it.</b><br>
+  A free, open-source Windows PC optimizer for gamers that measures before and after every change.
+</p>
 
-Çoğu "FPS artırıcı" program bir sürü ayarı değiştirip "artık daha hızlı" der ama hiçbir şey ölçmez.
-FrameProof bunun tersini yapar:
+<p align="center">
+  <a href="https://github.com/siiplasplas/FrameProof/releases/latest"><img alt="Latest release" src="https://img.shields.io/github/v/release/siiplasplas/FrameProof?style=flat-square&color=3ddc97&label=release"></a>
+  <a href="https://github.com/siiplasplas/FrameProof/releases"><img alt="Downloads" src="https://img.shields.io/github/downloads/siiplasplas/FrameProof/total?style=flat-square&color=3ddc97"></a>
+  <a href="LICENSE"><img alt="MIT license" src="https://img.shields.io/github/license/siiplasplas/FrameProof?style=flat-square&color=3ddc97"></a>
+  <img alt="Windows 10/11 x64" src="https://img.shields.io/badge/Windows-10%20%2F%2011%20x64-3ddc97?style=flat-square&logo=windows&logoColor=white">
+  <img alt=".NET 8" src="https://img.shields.io/badge/.NET-8-3ddc97?style=flat-square&logo=dotnet&logoColor=white">
+</p>
 
-1. **Tarar.** Gerçekten FPS'i etkileyen şeylere bakar: RAM XMP'siz mi çalışıyor, monitör 60 Hz'de mi kalmış,
-   tek RAM mi takılı, güç planı tasarrufta mı, disk dolu mu, ekran kartı sürücüsü eski mi…
-2. **Düzeltir.** Sadece etkisi ölçülmüş ayarları uygular. Her değişikliğin eski değeri kaydedilir, tek tıkla geri alınır.
-3. **Temizler.** Windows'un ve programların biriktirdiği gereksiz dosyaları güvenli biçimde siler.
-4. **Kanıtlar.** Intel PresentMon ile oyunun gerçek kare sürelerini ölçer. Önce/sonra ölçümlerini istatistikle
-   karşılaştırır ve "gerçek iyileşme" ya da "fark yok" der.
+<p align="center">
+  <a href="https://github.com/siiplasplas/FrameProof/releases/latest"><b>Download FrameProof.exe</b></a> ·
+  <a href="https://getframeproof.pages.dev">Website</a> ·
+  <a href="README.tr.md">Türkçe</a>
+</p>
 
-> Beklenti: zaten ayarlı bir bilgisayarda %0–5, hiç dokunulmamış bir bilgisayarda %10–25,
-> yanlış kurulmuş (XMP kapalı, tek RAM, 60 Hz'de kalmış monitör) bir bilgisayarda %30–50'nin üstü.
-> Bunu FrameProof'un ölçümüyle kendin görürsün.
+<p align="center">
+  <img src="site/img/home.webp" alt="FrameProof overview screen" width="900">
+</p>
 
-## İndir ve çalıştır
+Most "FPS booster" tools flip dozens of registry switches, tell you your PC is faster, and never measure anything.
+FrameProof works the other way round:
 
-1. `FrameProof.exe` dosyasını [getframeproof.pages.dev](https://getframeproof.pages.dev) adresinden ya da
-   [Releases](https://github.com/siiplasplas/FrameProof/releases/latest) sayfasından indir (kurulum yok, .NET kurmana gerek yok).
-2. Çift tıkla. Windows yönetici izni sorar: **Evet** de. (Hayır dersen sınırlı modda açılır.)
-3. **"Windows bilgisayarınızı korudu"** mavi ekranı çıkarsa: **Ek bilgi → Yine de çalıştır**.
-   Bu uyarı programın kod imzası olmadığı için çıkar (imza sertifikası yıllık ücretli). Kaynak kodu burada, istersen kendin derle.
+1. **Scan.** It reads what actually costs frames: RAM running without XMP/EXPO, a monitor stuck at 60 Hz, single-channel RAM,
+   the power-saver plan, a full system drive, an old GPU driver, a monitor cable plugged into the motherboard, a laptop game on the integrated GPU.
+2. **Fix.** It applies only tweaks with a measurable effect. Every change is journaled with its old value and can be undone in one click.
+3. **Clean.** It removes junk safely and can shrink installed games with Windows' own compression, without deleting anything.
+4. **Prove.** It captures real frame times with Intel PresentMon, compares before/after runs statistically and says either
+   *"real improvement"* or *"no difference"*.
 
-Gereken: Windows 10 veya 11, 64 bit.
+> **What to expect:** on an already-tuned PC, 0–5%. On an untouched PC, 10–25%. On a misconfigured one (XMP off, single stick of RAM,
+> monitor stuck at 60 Hz), 30–50% or more. You don't have to trust these numbers: FrameProof measures your own machine.
 
-## Sekmeler
+> [!NOTE]
+> The app's interface is currently in **Turkish**. Every action explains itself and asks before changing anything.
+> Translations are welcome. See [Contributing](#contributing).
 
-| Sekme | Ne yapar |
+## Screenshots
+
+<table>
+  <tr>
+    <td width="50%"><img src="site/img/tarama.webp" alt="Scan tab"><br><b>Scan.</b> Read-only. Problems ranked by impact, with a per-machine BIOS guide.</td>
+    <td width="50%"><img src="site/img/temizlik.webp" alt="Cleanup tab"><br><b>Cleanup.</b> Shows the size of everything before deleting. Compresses games without removing files.</td>
+  </tr>
+  <tr>
+    <td><img src="site/img/ayarlar.webp" alt="Settings tab"><br><b>Settings.</b> Each tweak lists what it does, its expected effect and its risk.</td>
+    <td><img src="site/img/oyuna-hazirla.webp" alt="Prepare for gaming"><br><b>Prepare for gaming.</b> Closes RAM-hungry apps on a safe list and tells you how many GB were freed.</td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center"><img src="site/img/geri-al.webp" alt="Undo tab" width="50%"><br><b>Undo.</b> Every change FrameProof made, reversible one by one or all at once.</td>
+  </tr>
+</table>
+
+## Features
+
+| | |
 |---|---|
-| **Genel bakış** | Açılış ekranı. 100 üzerinden puan, **Optimize et** düğmesi (önce ne yapacağını listeler, onay ister), laptopta oyunların hangi ekran kartında çalıştığı, Windows'un arka plan özellikleri, açık programlar ve "zaten doğru olanlar". |
-| **Tarama** | Sistemi okur, hiçbir şeyi değiştirmez. Sorunları önem sırasına göre listeler; düzeltilebilenlerin yanında "Düzelt" düğmesi var. |
-| **Temizlik** | Silinecek her şeyin boyutunu önceden gösterir, sen seçersin. |
-| **Ayarlar** | Her ayarın ne yaptığı, beklenen etkisi ve riski yazıyor. |
-| **Başlangıç** | Açılışta başlayan programları aç/kapat (Görev Yöneticisi ile aynı yöntem). |
-| **FPS Ölçümü** | Oyunu seç, 10 sn geri sayım, ölç. Ortalama FPS, 1% low, 0,1% low, takılma oranı, darboğaz (GPU/CPU), RAM yetti mi. |
-| **Geri al** | FrameProof'un yaptığı her değişiklik burada. Tek tek ya da hepsini geri al. |
+| **Overview and Optimize** | A score out of 100 and an **Optimize** button that lists what it will do and asks first. It never auto-applies anything debatable or anything that needs a reboot. |
+| **Scan** | XMP/EXPO, Resizable BAR, Secure Boot, BIOS age, refresh rate, RAM channels, power plan, pagefile, disk space, GPU driver age and more. Changes nothing. |
+| **BIOS guide** | Exact menu paths for ASUS, MSI, Gigabyte, ASRock and others, the key to enter setup, and a button that reboots straight into UEFI (`shutdown /r /fw`, with confirmation). BIOS is only *read*, never written. |
+| **Laptop and monitor** | Pins games to the dedicated GPU on hybrid laptops (same setting as Windows Settings > Display > Graphics), detects battery/silent modes, MUX/Optimus routing and a monitor cable plugged into the motherboard. |
+| **FPS measurement** | Intel PresentMon frame times: average FPS, 1% and 0.1% lows, stutter rate, GPU vs CPU bottleneck, GPU temperature and throttling, whether RAM was enough. |
+| **Cleanup** | Temp files, Windows Update cache, crash dumps, GPU driver installer leftovers, browser caches. Personal folders are off-limits. |
+| **Compress games** | Steam and Epic games with Windows' built-in WOF compression (`XPRESS16K`, same as `compact /exe`). Typically 10–40% saved. Fully reversible; anti-cheat folders and executables are skipped. |
+| **Startup apps** | Turn startup programs on or off, using the same mechanism as Task Manager. |
+| **Hard mode** | Optional extra trimming (Edge updater, Copilot, Bing in Start, hibernation, visual effects). Each item lists its cost, and you pick each one yourself. |
+| **Undo** | A journal of every change with the original value. |
+| **Auto-update** | Checks for new versions on launch. It downloads only when you click, then verifies SHA-256 and size before replacing itself. |
+| **CLI** | `frameproof-cli.exe` exposes the same engine for scripting. |
 
-## Optimize et ne yapar
+## What FrameProof deliberately does *not* do
 
-Tek tıkla yalnızca güvenli olanları yapar: varsayılan seçili temizlik maddeleri (1 MB'tan büyükse) ve riski ya da yeniden başlatması olmayan ayarlar
-(oyunları güçlü ekran kartına sabitle, Oyun Modu, Xbox arka plan kaydı, monitör Hz, Windows'un reklam ve arka plan özellikleri; güç planı yalnız "Güç tasarrufu"ndaysa).
-Bellek Bütünlüğü, HAGS, telemetri servisi gibi tartışmalı ya da yeniden başlatma isteyenleri **otomatik yapmaz**; programları da kapatmaz.
-Bitince kaç MB açıldığını, diskin önce/sonra boş alanını ve hangi ayarların yapıldığını gösterir.
+These are popular online but have no measurable benefit on modern Windows, or they cause harm:
 
-## Laptop: iki ekran kartı
+- **No kernel driver, no game-process access, no anti-cheat interaction.** No conflicts with Vanguard, FACEIT or EAC.
+- **No "RAM cleaners".** They flush Windows' file cache, so the game reads from disk again and stutters more.
+- **No HPET / `bcdedit` timer tweaks or timer-resolution tools.** Windows 10/11 already handles these.
+- **No disabling Prefetch/SysMain, no "network throttling" or TCP registry tweaks.**
+- **No touching Defender, Windows Update, the firewall or search indexing.** No uninstalling Edge or system apps.
 
-Laptoplarda Windows bazı oyunları işlemcinin içindeki zayıf karta atayabilir (FPS 2–3 kat düşer). FrameProof Windows'un tanıdığı oyunları listeler,
-hangisinin hangi karta ayarlı olduğunu gösterir ve tek tıkla güçlü karta sabitler (Windows Ayarlar > Ekran > Grafik ile aynı kayıt, geri alınabilir).
-FPS ölçümü sırasında oyunun gerçekten hangi kartta çalıştığını, işlemci hızını, NVIDIA kartın sıcaklığını ve ısıdan yavaşlayıp yavaşlamadığını, laptopun pilde olup olmadığını da okur.
+## How it measures
 
-## Windows'u sadeleştir
+- **1% low** is the average FPS of the worst 1% of frames (0.1% low is calculated the same way).
+- **Average FPS** is time-weighted: total frames divided by total time.
+- **Stutter** is the share of frames longer than twice the median frame time.
+- **Bottleneck:** GPU busy above 90% means GPU-bound; below 75% means CPU- or game-bound.
+- **Comparison:** each run is one sample, and runs are compared with a Welch t-test and a 95% confidence interval. At least 3 runs per side are required.
+  If the interval crosses zero or the difference is under 1%, the verdict is **"no difference"**.
 
-Hepsi resmi Windows/Edge ilkesi ya da kullanıcı ayarı, hepsi **Geri al** sekmesinden geri alınır:
-Edge'in arka planda çalışması ve başlangıç hızlandırması, pencere öğeleri (haber/hava durumu), Başlat menüsü reklamları ve sormadan uygulama kurulumu,
-güncellemeleri başka bilgisayarlara yükleme (Teslim İyileştirme), Mağaza uygulamalarının arka planda çalışması, Microsoft'a veri gönderimi (DiagTrack).
+## Install
 
-**Bilerek dokunmadıklarımız:** Defender, Windows Update, Güvenlik Duvarı, arama dizini. Bunları kapatmak FPS getirmez; bilgisayarı korumasız bırakır ya da güncellemeleri bozar.
-Servis ya da uygulama silme yok.
+1. Download `FrameProof.exe` from [Releases](https://github.com/siiplasplas/FrameProof/releases/latest) or [getframeproof.pages.dev](https://getframeproof.pages.dev).
+   It's a single portable file with no installer, and you don't need to install .NET.
+2. Run it and accept the admin prompt. If you decline, it opens in a limited mode.
+3. If Windows SmartScreen says *"Windows protected your PC"*, click **More info → Run anyway**.
+   This happens because the exe isn't code-signed (a signing certificate is a yearly paid subscription). The source is all here, so you can build it yourself.
 
-## Sert mod
+Requires Windows 10 or 11, 64-bit.
 
-Genel bakış'ta ve Ayarlar'da ayrı bir grup. **Optimize et bunları yapmaz**; her birinin küçük bir bedeli var, tek tek sen seçersin. Hepsi **Geri al** sekmesinden geri alınır.
+## Privacy
 
-| Madde | Ne yapar | Bedeli |
-|---|---|---|
-| Edge güncelleme servisleri kapalı | `edgeupdate` / `edgeupdatem` servisleri ve zamanlanmış görevleri durur | Edge ve WebView2 güvenlik güncellemesi almaz |
-| Copilot kapalı | Copilot ilkesi ve görev çubuğu düğmesi | Windows 11 24H2 ve sonrasında Copilot ayrı uygulama: orada "Gerekmiyor" yazar, Ayarlar > Uygulamalar'dan kaldırılır |
-| Başlat aramasında Bing yok | Başlat araması yalnız bilgisayarı arar | Başlat'tan web araması yapılamaz |
-| Hazırda bekletme kapalı | `powercfg /hibernate off`, RAM kadar yer açar | Soğuk açılış biraz yavaşlar; geri açmak için diskte o kadar boş yer gerekir |
-| Görsel efektler performansa | Animasyon, saydamlık, pencere gölgeleri kapanır | Windows daha düz görünür |
+FrameProof makes only two network requests. One is the update check, which only reads `version.json` and sends nothing.
+The other downloads PresentMon from GitHub, and only after you agree; its Intel signature is verified.
+There is no telemetry, no account and no ads. Data stays in `%LOCALAPPDATA%\FrameProof`.
+If something goes wrong, details are written to `%LOCALAPPDATA%\FrameProof\hata.log`; attach that file to your bug report.
 
-Edge **silinmez**: silinen Edge'i Windows Update geri kurar, WebView2 kullanan uygulamalar (Discord'un bazı parçaları, Teams, widget'lar) bozulur.
-Defender ve Windows Update'e Sert mod'da da dokunulmaz.
+## Command line
 
-## RAM (16 GB için)
-
-RAM temizleyici yok, çünkü işe yaramaz: Windows'un önbelleğini boşaltır, oyun o dosyaları yeniden diskten okur, takılma artar. Onun yerine:
-
-- **Oyuna hazırla:** Genel bakış'ta, güvenli listedeki 100 MB üstü programları (tarayıcı, OneDrive, Spotify, Teams vb.) tek onayla kapatır ve kaç GB açıldığını söyler.
-  Steam, Discord, başlatıcılar ve anti-cheat'e asla dokunmaz. Kapatmak geri alınamaz: önce açık işini kaydet.
-- **Sanal bellek kontrolü:** Taramada sanal belleğin (pagefile) Windows tarafından mı yönetildiğini, elle küçük ayarlanıp ayarlanmadığını ve diskte büyüyecek yer olup olmadığını gösterir.
-  16 GB RAM'de sanal bellek küçük ya da disk doluysa oyun çökebilir.
-- **FPS ölçümünde RAM:** ölçüm boyunca en az ne kadar RAM boş kaldığına, diske ne kadar sayfa yazıldığına ve kullanım oranına bakar; "RAM yetti" ya da "RAM yetmemiş görünüyor" der.
-  Bu bir tahmindir; RAM yetmediyse önce Oyuna hazırla'yı dene.
-
-## Arka planda açık programlar
-
-Genel bakış'ta RAM yiyen programlar listelenir; yalnız güvenli listedekiler (tarayıcılar, OneDrive, Spotify, Teams, Zoom vb.) "Kapat" düğmesiyle kapatılabilir.
-Başlatıcılar, anti-cheat, Discord, ekran kartı/ses/fare yazılımları ve sistem işlemleri asla kapatılmaz. **Kapatmak geri alınamaz**: kaydedilmemiş işin varsa önce kaydet.
-
-Discord 800 MB'tan fazla RAM kullanıyorsa FrameProof bunu söyler ve nasıl düşürüleceğini anlatır (GIF ve animasyonlu emoji otomatik oynatma, Oyun Katmanı, uzun süre açık kalınca yeniden başlatma).
-Dorion gibi "hafif Discord" istemcilerini önermiyoruz: ölçtüğümüzde WebView2 süreçleriyle birlikte normal Discord'dan **daha çok** RAM kullandı
-(1,5 GB'a karşı 855 MB; yalnız diskte ~1,2 GB kazandırıyor), Krisp gürültü engelleme yok ve imzasız. Equicord/Vencord gibi istemci modları Discord kurallarına aykırı olduğu için FrameProof kurmaz.
-
-## Oyunları sıkıştır (silmeden yer aç)
-
-Temizlik sekmesinin en üstünde. Steam ve Epic'te kurulu oyunları kurulum kayıtlarından bulur, her birinin boyutunu ve diskte kapladığı yeri gösterir.
-**Sıkıştır**, Windows'un kendi dosya sıkıştırmasını (WOF, `compact /exe:xpress16k` ile aynı) kullanır:
-
-- Dosyalar silinmez, oyun onları her zamanki gibi okur. Kazanç oyuna göre değişir: çoğunda %10–40, zaten paketlenmiş oyunlarda (CS2 gibi) daha az.
-- Algoritma XPRESS16K: LZX'ten biraz az sıkıştırır ama açması çok daha hafif, yükleme süresine etkisi küçük olur.
-- exe/dll dosyalarına ve anti-cheat klasörlerine (EasyAntiCheat, BattlEye vb.) dokunulmaz. Oyun açıkken başlamaz; istenince durdurulabilir.
-- Steam güncellemesinde değişen dosyalar sıkıştırılmamış yazılır; ara sıra **Yeniden sıkıştır**.
-- **Geri al** sekmesinden ya da oyunun yanındaki düğmeden geri alınır. Geri almak için diskte kazanılan kadar boş yer gerekir; yoksa FrameProof bunu söyler ve başlamaz.
-- SSD'ye bir kez oyun boyutu kadar yazılır.
-
-## Temizlik neleri siler
-
-| Hedef | Not |
-|---|---|
-| Geçici dosyalar (kullanıcı ve Windows) | Sadece 1 günden eski olanlar; kullanımdaki dosyalar atlanır |
-| Windows Update indirme önbelleği | Kurulmuş güncellemelerin indirme dosyaları |
-| Teslim İyileştirme önbelleği | Güncellemeleri başka PC'lerle paylaşma dosyaları |
-| Çökme dökümleri, hata raporları, eski Windows günlükleri | |
-| Küçük resim önbelleği | Windows yeniden oluşturur |
-| Ekran kartı sürücü kurulum artıkları | `C:\NVIDIA` ve `C:\AMD` içindeki eski kurulum dosyaları |
-| Geri Dönüşüm Kutusu | Varsayılan olarak seçili değil |
-| Tarayıcı önbellekleri, Discord ve Steam web önbelleği | Program açıksa atlanır; şifreler ve geçmiş silinmez |
-| Windows.old, WinSxS | Varsayılan olarak seçili değil, uyarıyla |
-
-Güvenlik kuralları (kodda zorunlu): kişisel klasörlere dokunulmaz, klasörün kendisi değil sadece içi silinir,
-sembolik bağlantı/junction takip edilmez, kilitli dosya atlanır, yasaklı köklerde (C:\, Windows, Program Files, kullanıcı klasörü) silme reddedilir.
-
-## Bilerek yapmadıklarımız
-
-Bunlar internette çok önerilir ama ölçülebilir fayda sağlamaz ya da zarar verir. FrameProof bunları **yapmaz**:
-
-- **HPET kapatma / `bcdedit` zamanlayıcı ayarları:** modern Windows'ta etkisiz ya da kötüleştirici.
-- **Zamanlayıcı çözünürlüğü programları:** Windows 11 bunu zaten süreç başına yönetiyor.
-- **Prefetch / SysMain kapatma:** SSD'de fayda yok, yükleme sürelerini uzatabilir.
-- **"Network throttling" ve TCP kayıt defteri ayarları:** oyun ping'ine etkisi yok.
-- **"RAM temizleyiciler":** Windows'un önbelleğini boşaltır, sonra her şey yeniden diskten okunur. Onun yerine yukarıdaki RAM bölümüne bak.
-- **Edge'i, Defender'ı ya da Windows Update'i silmek / kapatmak:** FPS getirmez, Windows geri kurar ya da bilgisayar korumasız kalır.
-- **Çekirdek sürücüsü, oyun sürecine müdahale, anti-cheat'i kandırma:** asla. FrameProof sürücü yüklemez,
-  oyunun belleğine dokunmaz. Valorant/Vanguard, FACEIT, EAC ile sorun çıkarmaz.
-
-## BIOS rehberi
-
-BIOS ayarları (XMP/EXPO, Resizable BAR) Windows'tan güvenli şekilde değiştirilemez; her üreticinin yapısı farklı. FrameProof BIOS'u **yalnız okur**:
-sürüm ve tarih (2 yıldan eskiyse güncelleme önerir), Secure Boot, RAM hızı (XMP/EXPO), Resizable BAR.
-
-Yapılacak bir şey varsa **Tarama** sekmesinin başında bu bilgisayara özel bir **BIOS rehberi** çıkar:
-anakart/laptop üreticisine göre (ASUS, MSI, Gigabyte, ASRock ve diğerleri) menünün tam yeri, BIOS'a giriş tuşu, neyin ne kazandıracağı.
-**BIOS'a yeniden başlat** düğmesi bilgisayarı doğrudan BIOS ekranına açar (Windows'un kendi `shutdown /r /fw` komutu; yalnız UEFI'de, onay ister).
-
-## Diğer kontroller
-
-- **Monitör kablosu anakarta mı takılı?** Masaüstünde monitör ekran kartına değil anakarta takılıysa oyun zayıf işlemci grafikleriyle çalışır. Tarama bunu bulur.
-- **Laptop performans modu:** üreticinin uygulamasında (Armoury Crate, MSI Center, Lenovo Vantage…) hangi modun seçileceğini ve kısayolunu söyler.
-- **MUX / Optimus:** laptop ekranı işlemci grafikleri üzerinden çalışıyorsa MUX anahtarı (varsa) ya da harici monitör ipucu verir.
-- **Pencereli oyunlar için iyileştirmeler:** Windows 11'in kenarlıksız pencere gecikmesini azaltan kendi ayarı. Tek tıkla açılır, geri alınır.
-
-## Güncelleme
-
-Uygulama açılışta `getframeproof.pages.dev/version.json` dosyasına bakar. Yeni sürüm varsa üstte haber verir; **Güncelle**'ye basarsan
-yeni exe'yi GitHub Releases'ten indirir, SHA-256 ve boyutunu doğrular, kendini değiştirip yeniden açılır. Doğrulama tutmazsa hiçbir şey değişmez.
-Kendiliğinden hiçbir şey kurulmaz. Sol alttaki **Güncellemeleri denetle** ile elle de bakılır.
-
-## Gizlilik
-
-İnternete yalnız iki bağlantı: sürüm kontrolü (yukarıda; yalnız dosya okunur, hiçbir bilgi gönderilmez) ve FPS ölçümü için PresentMon'u
-**senin onayınla** GitHub'dan indirmek (Intel imzası doğrulanır). Telemetri yok, hesap yok, reklam yok.
-Veriler `%LOCALAPPDATA%\FrameProof` içinde durur. Bir hata olursa ayrıntısı `%LOCALAPPDATA%\FrameProof\hata.log` dosyasına yazılır;
-hata bildirirken bu dosyayı eklemen yeter.
-
-## Komut satırı
-
-`frameproof-cli.exe` aynı çekirdeği kullanır:
-
-```
-frameproof-cli scan [--json]                 Sistemi tara
-frameproof-cli clean                         Temizlenebilir alanı hesapla (silmez)
+```text
+frameproof-cli scan [--json]                 Scan the system
+frameproof-cli clean                         Calculate reclaimable space (deletes nothing)
 frameproof-cli clean --run user_temp,thumbs --yes
-frameproof-cli tweaks | tweak <id>           Ayarları listele / uygula
-frameproof-cli journal | undo <id|all>       Değişiklikler / geri al
-frameproof-cli startup [on|off "<ad>"]       Başlangıç uygulamaları
-frameproof-cli measure <oyun.exe> <sn> <etiket>
-frameproof-cli compare <etiketA> <etiketB>   İstatistikli karşılaştırma
-frameproof-cli games                         Ekran kartları ve oyunların kart tercihi
-frameproof-cli apps                          Arka planda açık programlar (yalnız listeler)
-frameproof-cli space                         Kurulu oyunlar, boyutları ve sıkıştırma durumu (yalnız okur)
-frameproof-cli optimize                      Optimize et planını göster (uygulamaz)
-frameproof-cli selftest                      Güvenlik testlerini çalıştır
+frameproof-cli tweaks | tweak <id>           List / apply tweaks
+frameproof-cli journal | undo <id|all>       Change journal / undo
+frameproof-cli startup [on|off "<name>"]     Startup apps
+frameproof-cli measure <game.exe> <sec> <label>
+frameproof-cli compare <labelA> <labelB>     Statistical comparison
+frameproof-cli games                         GPUs and per-game GPU preference
+frameproof-cli space                         Installed games, size, compression state
+frameproof-cli optimize                      Show the Optimize plan (doesn't apply)
+frameproof-cli selftest                      Run the safety tests
 ```
 
-## Derleme
+## Build from source
 
-.NET 8 SDK gerekir.
+Requires the .NET 8 SDK.
 
-```
+```bash
 dotnet build
 dotnet run --project src/FrameProof.Cli -- selftest
 dotnet publish src/FrameProof.App -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:EnableCompressionInSingleFile=true -o dist
 ```
 
-Yapı: `FrameProof.Core` (tarama, ayarlar, günlük, temizlik, ölçüm), `FrameProof.App` (WPF arayüz), `FrameProof.Cli` (komut satırı ve testler).
+The main projects: `FrameProof.Core` holds the scan, tweaks, journal, cleanup and measurement logic. `FrameProof.App` is the WPF UI and `FrameProof.Cli` is the command line and tests.
 
-## Nasıl ölçüyoruz
+## Contributing
 
-- **1% low** = en kötü %1'lik karelerin ortalama FPS'i (0,1% low aynı şekilde).
-- **Ortalama FPS** zamana göre ağırlıklı: toplam kare / toplam süre.
-- **Takılma** = ortanca kare süresinin 2 katından uzun karelerin oranı.
-- **Darboğaz:** ekran kartı meşguliyeti %90 üstü ise GPU, %75 altı ise CPU/oyun sınırı.
-- **Karşılaştırma:** her ölçüm bir örnek; Welch t-testi ile %95 güven aralığı. Her taraf için en az 3 ölçüm şart;
-  aralık sıfırı içeriyorsa ya da fark %1'den küçükse sonuç "fark yok".
+Bug reports and pull requests are welcome. Good places to start:
 
----
+- **Translations.** The UI is Turkish today; an English UI is the most wanted contribution.
+- **BIOS menu paths** for more motherboard and laptop vendors (`src/FrameProof.Core/Scan/BiosGuide.cs`).
+- **Measured results.** Open an issue with before/after numbers from your machine.
 
-## English (short)
+If you report a bug, please attach `%LOCALAPPDATA%\FrameProof\hata.log`.
 
-FrameProof is a free, open-source Windows tool for gamers: **scan** for real performance problems (XMP off, monitor stuck at 60 Hz,
-single-channel RAM, power saver, full disk, old GPU driver), **fix** only tweaks with measured impact (every change journaled and
-one-click reversible), **clean** junk files safely, and **prove** the result by capturing frame times with Intel PresentMon and
-comparing before/after runs with a Welch t-test (95% CI). It also builds a per-machine BIOS guide (vendor-specific menu paths,
-reboot straight into UEFI setup) and updates itself from a SHA-256-verified GitHub release. No kernel driver, no game-process access,
-no telemetry. MIT licensed.
+## License
+
+[MIT](LICENSE). FrameProof is not affiliated with Intel, NVIDIA, AMD, Microsoft or any game publisher.

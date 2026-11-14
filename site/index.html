@@ -25,8 +25,12 @@
 
 <header class="top">
   <div class="wrap top__in">
-    <a class="logo" href="#" aria-label="FrameProof ana sayfa"><span class="logo__a">Frame</span>Proof</a>
+    <a class="logo" href="#" aria-label="FrameProof ana sayfa">
+      <svg class="logo__mark" aria-hidden="true" viewBox="0 0 32 32"><rect width="32" height="32" rx="8"/><path d="M6 22l6-7 5 4 9-11"/></svg>
+      <span><span class="logo__a">Frame</span>Proof</span>
+    </a>
     <nav class="top__nav" aria-label="Sayfa içi">
+      <a href="#kanit">Ölçüm</a>
       <a href="#ozellikler">Özellikler</a>
       <a href="#farki">Neden farklı</a>
       <a href="#ekranlar">Ekranlar</a>
@@ -43,10 +47,11 @@
 
 <!-- HERO -->
 <section class="hero">
+  <div class="hero__bg" aria-hidden="true"></div>
   <svg class="hero__trace" aria-hidden="true" viewBox="0 0 1200 200" preserveAspectRatio="none"><path d="M0 120 L40 118 L60 122 L80 117 L100 121 L120 60 L130 119 L170 120 L200 116 L230 122 L260 119 L280 40 L290 118 L330 121 L360 117 L400 120 L430 118 L460 122 L480 90 L490 119 L540 120 L580 117 L620 121 L660 119 L700 118 L740 121 L780 119 L820 120 L860 118 L900 121 L940 119 L980 120 L1020 118 L1060 120 L1100 119 L1140 120 L1200 119"/></svg>
   <div class="wrap hero__grid">
     <div class="hero__copy">
-      <p class="eyebrow">Ücretsiz · Açık kaynak · Windows 10/11</p>
+      <p class="eyebrow"><span class="pulse" aria-hidden="true"></span>v0.2.0 · Ücretsiz · Açık kaynak · Windows 10/11</p>
       <h1>Ölç, düzelt,<br><span class="hl">kanıtla.</span></h1>
       <p class="lead">FrameProof oyun bilgisayarındaki gerçek sorunları bulur, sadece etkisi ölçülmüş ayarları uygular ve sonucu FPS ölçümüyle sana gösterir. Placebo yok, sihirli düğme yok. Yaptığı her ayar tek tıkla geri alınır.</p>
       <div class="cta">
@@ -59,7 +64,7 @@
       <ul class="facts" aria-label="Gereksinimler">
         <li>Kurulum yok, tek dosya</li>
         <li>Windows 10/11, 64 bit</li>
-        <li>Açılışta yönetici izni ister</li>
+        <li>Kendini günceller</li>
       </ul>
       <p class="note">İlk açılışta mavi <q>Windows bilgisayarınızı korudu</q> ekranı çıkabilir: <b>Ek bilgi → Yine de çalıştır</b>. <a href="#sss-uyari">Neden çıkıyor?</a></p>
     </div>
@@ -68,6 +73,8 @@
         <div class="win__bar" aria-hidden="true"><span class="win__title"><b>Frame</b>Proof</span><span class="win__dots"><i></i><i></i><i></i></span></div>
         <img src="img/home.webp" width="1160" height="656" fetchpriority="high" alt="FrameProof Genel bakış ekranı: 100 üzerinden 85 puan, bulunan tek sorun olarak dolu sistem diski ve laptoptaki oyunların güçlü ekran kartına atandığını gösteren liste.">
       </div>
+      <div class="chip chip--a" aria-hidden="true"><span class="chip__ico">↺</span><span><b>Her değişiklik kayıtlı</b><small>Tek tıkla geri al</small></span></div>
+      <div class="chip chip--b" aria-hidden="true"><span class="chip__dot"></span><span><b>PresentMon ile ölçülür</b><small>1% low · takılma · darboğaz</small></span></div>
       <figcaption>Gerçek ekran görüntüsü: Genel bakış</figcaption>
     </figure>
   </div>
@@ -83,69 +90,118 @@
   </ol>
 </section>
 
+<!-- PROOF -->
+<section class="sec proof" id="kanit">
+  <div class="wrap proof__grid">
+    <div class="proof__copy">
+      <p class="kicker">Kanıtla</p>
+      <h2>Ayarı yap, sonra <span class="hl">ölç.</span></h2>
+      <p class="proof__lead">Çoğu program <q>%30 FPS artışı</q> yazar ve hiçbir şey ölçmez. FrameProof oyunu önce ve sonra ölçer, sonucu istatistikle söyler. Ortalama FPS'e değil, takılmayı gösteren <b>1% low</b> değerine bakar.</p>
+      <ul class="ticks">
+        <li>Intel PresentMon ile gerçek kare süreleri</li>
+        <li>Her taraf için en az 3 ölçüm, %95 güven aralığı</li>
+        <li>Darboğaz ekran kartında mı işlemcide mi, RAM yetti mi</li>
+        <li>Fark belirsizse dürüstçe <q>fark yok</q></li>
+      </ul>
+    </div>
+    <figure class="graph">
+      <div class="graph__head">
+        <span class="graph__title">Kare süresi (ms)</span>
+        <span class="graph__legend"><i class="lg lg--b"></i>Önce <i class="lg lg--a"></i>Sonra</span>
+      </div>
+      <svg class="graph__svg" viewBox="0 0 600 200" preserveAspectRatio="none" role="img" aria-label="Temsili kare süresi grafiği: önce sık sivri takılmalar var, sonra çizgi düz ve daha aşağıda.">
+        <g class="graph__grid"><path d="M0 50H600M0 100H600M0 150H600"/></g>
+        <path class="graph__b" d="M0.0 151.0 L4.0 147.0 L8.1 140.8 L12.1 146.4 L16.1 140.4 L20.1 141.4 L24.2 139.6 L28.2 145.8 L32.2 141.2 L36.2 141.4 L40.3 138.1 L44.3 149.3 L48.3 138.1 L52.3 142.0 L56.4 138.2 L60.4 145.8 L64.4 139.3 L68.5 148.9 L72.5 145.0 L76.5 137.9 L80.5 140.8 L84.6 150.2 L88.6 143.2 L92.6 145.1 L96.6 138.3 L100.7 145.9 L104.7 141.7 L108.7 143.8 L112.8 145.3 L116.8 145.9 L120.8 146.3 L124.8 142.4 L128.9 138.3 L132.9 138.9 L136.9 142.1 L140.9 143.9 L145.0 137.8 L149.0 141.1 L153.0 142.8 L157.0 146.4 L161.1 139.9 L165.1 149.4 L169.1 149.9 L173.2 148.8 L177.2 137.1 L181.2 142.1 L185.2 144.6 L189.3 149.1 L193.3 138.6 L197.3 138.6 L201.3 140.3 L205.4 150.9 L209.4 58.7 L213.4 147.8 L217.4 144.1 L221.5 147.7 L225.5 147.7 L229.5 138.5 L233.6 36.5 L237.6 142.1 L241.6 150.7 L245.6 148.4 L249.7 143.1 L253.7 147.3 L257.7 148.1 L261.7 150.3 L265.8 141.2 L269.8 96.7 L273.8 138.1 L277.9 141.4 L281.9 150.5 L285.9 138.9 L289.9 137.6 L294.0 145.1 L298.0 140.8 L302.0 145.4 L306.0 145.3 L310.1 143.2 L314.1 142.3 L318.1 146.3 L322.1 145.1 L326.2 146.6 L330.2 137.1 L334.2 138.8 L338.3 148.2 L342.3 149.1 L346.3 143.2 L350.3 137.8 L354.4 148.4 L358.4 148.7 L362.4 143.7 L366.4 143.9 L370.5 145.9 L374.5 150.6 L378.5 143.4 L382.6 140.9 L386.6 147.7 L390.6 145.0 L394.6 140.2 L398.7 138.2 L402.7 141.5 L406.7 150.6 L410.7 142.6 L414.8 94.8 L418.8 149.9 L422.8 59.6 L426.8 137.8 L430.9 149.1 L434.9 141.6 L438.9 144.6 L443.0 145.1 L447.0 140.2 L451.0 145.2 L455.0 147.8 L459.1 137.4 L463.1 138.0 L467.1 149.3 L471.1 142.6 L475.2 149.9 L479.2 141.9 L483.2 144.3 L487.2 149.9 L491.3 104.5 L495.3 145.2 L499.3 147.7 L503.4 140.1 L507.4 144.9 L511.4 137.5 L515.4 141.7 L519.5 146.1 L523.5 144.0 L527.5 143.1 L531.5 141.7 L535.6 140.8 L539.6 139.2 L543.6 144.9 L547.7 137.6 L551.7 146.0 L555.7 146.2 L559.7 141.1 L563.8 137.6 L567.8 148.1 L571.8 139.8 L575.8 138.2 L579.9 142.1 L583.9 143.5 L587.9 138.8 L591.9 138.8 L596.0 141.4 L600.0 145.5"/>
+        <path class="graph__a" d="M0.0 162.4 L4.0 160.2 L8.1 164.1 L12.1 160.4 L16.1 164.3 L20.1 166.5 L24.2 163.7 L28.2 161.6 L32.2 165.3 L36.2 159.9 L40.3 165.3 L44.3 162.1 L48.3 160.8 L52.3 161.2 L56.4 164.2 L60.4 159.8 L64.4 162.4 L68.5 161.6 L72.5 162.3 L76.5 166.2 L80.5 164.9 L84.6 164.7 L88.6 162.2 L92.6 160.8 L96.6 160.2 L100.7 161.7 L104.7 161.0 L108.7 160.9 L112.8 160.1 L116.8 160.7 L120.8 160.4 L124.8 161.4 L128.9 160.5 L132.9 161.5 L136.9 165.6 L140.9 159.8 L145.0 166.0 L149.0 159.9 L153.0 159.8 L157.0 165.1 L161.1 163.2 L165.1 165.5 L169.1 163.1 L173.2 166.1 L177.2 165.8 L181.2 163.2 L185.2 161.4 L189.3 161.6 L193.3 162.2 L197.3 161.1 L201.3 161.5 L205.4 160.9 L209.4 166.0 L213.4 162.0 L217.4 162.7 L221.5 163.0 L225.5 166.0 L229.5 164.0 L233.6 165.1 L237.6 165.6 L241.6 166.5 L245.6 160.4 L249.7 161.1 L253.7 163.7 L257.7 160.9 L261.7 159.5 L265.8 162.0 L269.8 166.3 L273.8 161.2 L277.9 164.8 L281.9 160.8 L285.9 163.3 L289.9 164.7 L294.0 160.4 L298.0 163.0 L302.0 160.8 L306.0 161.2 L310.1 161.7 L314.1 161.5 L318.1 160.5 L322.1 160.6 L326.2 160.8 L330.2 160.9 L334.2 166.2 L338.3 165.1 L342.3 162.5 L346.3 162.1 L350.3 160.4 L354.4 165.0 L358.4 163.3 L362.4 162.7 L366.4 162.9 L370.5 163.0 L374.5 161.6 L378.5 164.4 L382.6 162.2 L386.6 159.9 L390.6 164.3 L394.6 162.5 L398.7 162.5 L402.7 165.0 L406.7 164.2 L410.7 160.4 L414.8 163.8 L418.8 163.7 L422.8 165.4 L426.8 163.2 L430.9 165.9 L434.9 163.7 L438.9 165.8 L443.0 164.6 L447.0 165.6 L451.0 163.4 L455.0 162.2 L459.1 161.2 L463.1 163.1 L467.1 161.7 L471.1 162.1 L475.2 160.3 L479.2 159.7 L483.2 159.5 L487.2 165.8 L491.3 160.5 L495.3 161.4 L499.3 164.8 L503.4 161.1 L507.4 160.8 L511.4 162.4 L515.4 164.4 L519.5 161.4 L523.5 162.2 L527.5 161.7 L531.5 161.6 L535.6 160.6 L539.6 162.5 L543.6 162.1 L547.7 163.4 L551.7 160.5 L555.7 159.7 L559.7 161.3 L563.8 162.5 L567.8 165.1 L571.8 163.4 L575.8 166.2 L579.9 161.0 L583.9 165.9 L587.9 162.2 L591.9 164.3 L596.0 166.0 L600.0 163.5"/>
+      </svg>
+      <div class="graph__stats">
+        <div><span>Ortalama FPS</span><b>88 <em>→</em> 97</b></div>
+        <div><span>1% low</span><b>52 <em>→</em> 68</b></div>
+        <div><span>Takılma</span><b>%3,1 <em>→</em> %0,8</b></div>
+        <div class="graph__verdict"><span class="verdict">✓ Gerçek iyileşme</span><small>%95 güven aralığı</small></div>
+      </div>
+      <figcaption>Temsili örnek: RAM profili (XMP) açılmadan önce ve sonra. Senin bilgisayarındaki fark farklı olur; FrameProof onu da ölçer.</figcaption>
+    </figure>
+  </div>
+</section>
+
 <!-- FEATURES -->
-<section class="sec" id="ozellikler">
+<section class="sec sec--alt" id="ozellikler">
   <div class="wrap">
-    <header class="sec__head">
-      <p class="kicker">Özellikler</p>
-      <h2>İçinde ne var?</h2>
+    <header class="sec__head sec__head--row">
+      <div>
+        <p class="kicker">Özellikler</p>
+        <h2>İçinde ne var?</h2>
+      </div>
       <p>Her sekme tek bir iş yapar ve ne yaptığını açıkça yazar. Hiçbir şey sen onay vermeden değişmez.</p>
     </header>
     <div class="cards">
       <article class="card">
+        <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4.5 17a8.5 8.5 0 1 1 15 0"/><path d="M12 14l3.5-4.5"/><circle cx="12" cy="14.5" r="1.2"/></svg></span>
         <h3>Genel bakış ve <span class="nw">Optimize et</span></h3>
         <p>100 üzerinden puan ve tek tıkla optimizasyon. Önce ne yapacağını listeler, onay ister. Tartışmalı ya da yeniden başlatma isteyen ayarları kendiliğinden yapmaz.</p>
       </article>
       <article class="card">
+        <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5 5"/></svg></span>
         <h3>Tarama</h3>
-        <p>RAM XMP'siz mi çalışıyor, tek RAM mi takılı, monitör 60 Hz'de mi kalmış, güç planı tasarrufta mı, disk dolu mu, sürücü eski mi? BIOS'u yalnız okur, ne yapman gerektiğini adım adım anlatır.</p>
-      </article>
-      <article class="card">
-        <h3>Laptop: iki ekran kartı</h3>
-        <p>Windows bazı oyunları işlemcinin içindeki zayıf karta atayabilir. Hangi oyunun hangi kartta çalıştığını gösterir, tek tıkla güçlü karta sabitler.</p>
+        <p>RAM XMP'siz mi çalışıyor, tek RAM mi takılı, monitör 60 Hz'de mi kalmış, güç planı tasarrufta mı, disk dolu mu, sürücü eski mi? Hepsini okur, hiçbir şeyi değiştirmez.</p>
       </article>
       <article class="card card--new">
-        <h3>Oyunları sıkıştır <span class="tag">Yeni</span></h3>
-        <p>Steam ve Epic oyunlarını Windows'un kendi sıkıştırmasıyla küçültür. Hiçbir dosya silinmez, oyun her zamanki gibi açılır. Kazanç oyuna göre değişir, istersen geri alırsın.</p>
+        <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="12" rx="1.5"/><path d="M8 9h3M8 12h6M2 20h20"/></svg></span>
+        <h3>BIOS rehberi <span class="tag">Yeni</span></h3>
+        <p>Senin anakartına ya da laptopuna göre XMP, Resizable BAR ve Secure Boot'un hangi menüde olduğunu yazar. İstersen bilgisayarı doğrudan BIOS'a yeniden başlatır.</p>
       </article>
       <article class="card">
+        <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="11" rx="1.5"/><path d="M8 20h8M12 16v4"/></svg></span>
+        <h3>Laptop ve monitör</h3>
+        <p>Oyun zayıf ekran kartına mı atanmış, monitör kablosu anakarta mı takılı, laptop pilde ya da sessiz modda mı? Gösterir, düzeltilebileni tek tıkla düzeltir.</p>
+      </article>
+      <article class="card">
+        <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 3v5H3M16 3v5h5M8 21v-5H3M16 21v-5h5"/></svg></span>
+        <h3>Oyunları sıkıştır</h3>
+        <p>Steam ve Epic oyunlarını Windows'un kendi sıkıştırmasıyla küçültür. Hiçbir dosya silinmez, oyun her zamanki gibi açılır, istersen geri alırsın.</p>
+      </article>
+      <article class="card">
+        <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 7h16M9.5 7V4.5h5V7M6 7l1 13h10l1-13M10 11v5M14 11v5"/></svg></span>
         <h3>Temizlik</h3>
-        <p>Geçici dosyalar, güncelleme önbelleği, çökme dökümleri, sürücü kurulum artıkları, tarayıcı önbellekleri. Silmeden önce boyutunu gösterir, sen seçersin. Kişisel klasörlere dokunmaz.</p>
+        <p>Geçici dosyalar, güncelleme önbelleği, çökme dökümleri, sürücü kurulum artıkları, tarayıcı önbellekleri. Silmeden önce boyutunu gösterir, kişisel klasörlere dokunmaz.</p>
       </article>
       <article class="card">
+        <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></svg></span>
         <h3>Ayarlar</h3>
-        <p>Monitörü en yüksek Hz'e alma, Oyun Modu, Xbox arka plan kaydı, güç planı, Windows'un reklam ve arka plan özellikleri. Her birinin etkisi ve riski yanında yazıyor.</p>
+        <p>Monitörü en yüksek Hz'e alma, Oyun Modu, Xbox arka plan kaydı, güç planı, pencereli oyun iyileştirmesi. Her birinin etkisi ve riski yanında yazıyor.</p>
       </article>
       <article class="card">
+        <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M13 3L5 14h6l-1 7 8-11h-6z"/></svg></span>
         <h3>Sert mod</h3>
         <p>İsteğe bağlı, daha sert sadeleştirme: Edge güncelleyicisi, Copilot, Başlat'ta Bing, hazırda bekletme, görsel efektler. Her birinin bedeli yazıyor, tek tek sen seçersin.</p>
       </article>
       <article class="card">
+        <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 8h10a4 4 0 0 1 4 4v1.5a2.8 2.8 0 0 1-5 1.7L14.5 13.5h-5L8 15.2a2.8 2.8 0 0 1-5-1.7V12a4 4 0 0 1 4-4z"/><path d="M8 10v3M6.5 11.5h3"/></svg></span>
         <h3>Oyuna hazırla</h3>
-        <p>RAM yiyen tarayıcı, OneDrive, Spotify, Teams gibi programları tek onayla kapatır, kaç GB açıldığını söyler. Steam, Discord, başlatıcılar ve anti-cheat'e asla dokunmaz.</p>
+        <p>RAM yiyen tarayıcı, OneDrive, Spotify, Teams gibi programları tek onayla kapatır, kaç GB açıldığını söyler. Steam, Discord ve anti-cheat'e asla dokunmaz.</p>
       </article>
       <article class="card">
+        <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3v8M7 6.3a7 7 0 1 0 10 0"/></svg></span>
         <h3>Başlangıç</h3>
         <p>Bilgisayar açılınca kendiliğinden başlayan programları aç ya da kapat. Görev Yöneticisi ile aynı yöntem, program silinmez.</p>
       </article>
       <article class="card">
-        <h3>FPS ölçümü</h3>
-        <p>Intel PresentMon ile oyunun gerçek kare sürelerini okur: ortalama FPS, 1% low, 0,1% low, takılma oranı, darboğaz GPU'da mı CPU'da mı, RAM yetti mi.</p>
-      </article>
-      <article class="card">
+        <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 7H5V3M5.5 7A8 8 0 1 1 4 12"/></svg></span>
         <h3>Geri al</h3>
         <p>FrameProof'un yaptığı her değişiklik eski değeriyle birlikte burada. Tek tek ya da hepsini birden geri al.</p>
       </article>
       <article class="card card--new">
+        <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.3-5.6M20 4v4.5h-4.5"/></svg></span>
         <h3>Otomatik güncelleme <span class="tag">Yeni</span></h3>
-        <p>Yeni sürüm çıkınca uygulama sana haber verir. Tıklarsın, kendini günceller. Sayfaya gelip yeniden indirmekle uğraşmazsın.</p>
+        <p>Yeni sürüm çıkınca uygulama haber verir. Tıklarsın, dosyanın imzasını doğrulayıp kendini günceller.</p>
       </article>
     </div>
   </div>
 </section>
 
 <!-- WHY DIFFERENT -->
-<section class="sec sec--alt" id="farki">
+<section class="sec" id="farki">
   <div class="wrap">
     <header class="sec__head">
       <p class="kicker">Neden diğerlerinden farklı</p>
@@ -154,17 +210,17 @@
 
     <div class="pillars">
       <div class="pillar">
-        <span class="pillar__ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 18h16M6 15l3-4 3 2 5-7" /></svg></span>
+        <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 18h16M6 15l3-4 3 2 5-7" /></svg></span>
         <h3>Sadece ölçülmüş ayarlar</h3>
         <p>İnternette dolaşan her tavsiyeyi uygulamaz. Etkisi ölçülebilir olanları yapar; her birinin ne yaptığını, beklenen etkisini ve riskini yazar.</p>
       </div>
       <div class="pillar">
-        <span class="pillar__ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 7H5V3M5.5 7A8 8 0 1 1 4 12" /></svg></span>
+        <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 7H5V3M5.5 7A8 8 0 1 1 4 12" /></svg></span>
         <h3>Her ayar geri alınır</h3>
         <p>Bir ayarı değiştirmeden önce eski değerini kaydeder. <b>Geri al</b> sekmesinden tek tek ya da hepsini birden eski haline döndürürsün.</p>
       </div>
       <div class="pillar">
-        <span class="pillar__ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12l4 4 10-10" /></svg></span>
+        <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12l4 4 10-10" /></svg></span>
         <h3>Sonucu sen görürsün</h3>
         <p>Önce ve sonra ölçüm alır, gerçek 1% low değerlerini karşılaştırır. Fark gerçekse <q>gerçek iyileşme</q>, değilse dürüstçe <q>fark yok</q> der.</p>
       </div>
@@ -193,18 +249,20 @@
           <div><dt>Darboğaz</dt><dd>Ekran kartı %90 üstü meşgulse GPU, %75 altındaysa CPU / oyun sınırı.</dd></div>
           <div><dt>Karşılaştırma</dt><dd>Her taraf için en az 3 ölçüm, %95 güven aralığı. Fark belirsizse sonuç <q>fark yok</q>.</dd></div>
         </dl>
-        <p class="muted small">Ne kadar FPS kazanacağını söyleyemeyiz, bilgisayarına bağlı. Zaten iyi ayarlı bir sistemde fark küçük olur; XMP kapalı, tek RAM ya da 60 Hz'de unutulmuş bir monitör varsa büyük olabilir. Rakamı kendi ölçümünle görürsün.</p>
+        <p class="muted small">Ne kadar FPS kazanacağını söyleyemeyiz, bilgisayarına bağlı. Zaten iyi ayarlı bir sistemde fark küçük olur; XMP kapalı, tek RAM ya da 60 Hz'de unutulmuş bir monitör varsa büyük olabilir.</p>
       </div>
     </div>
   </div>
 </section>
 
 <!-- SCREENSHOTS -->
-<section class="sec" id="ekranlar">
+<section class="sec sec--alt" id="ekranlar">
   <div class="wrap">
-    <header class="sec__head">
-      <p class="kicker">Ekranlar</p>
-      <h2>Ne yaptığını saklamayan bir arayüz</h2>
+    <header class="sec__head sec__head--row">
+      <div>
+        <p class="kicker">Ekranlar</p>
+        <h2>Ne yaptığını saklamayan bir arayüz</h2>
+      </div>
       <p>Aşağıdakiler uygulamanın gerçek ekran görüntüleri. Büyütmek için görsele dokun.</p>
     </header>
 
@@ -212,6 +270,7 @@
       <figure class="shot">
         <a href="img/temizlik.webp" class="shot__img"><img src="img/temizlik.webp" width="920" height="476" loading="lazy" decoding="async" alt="Temizlik sekmesi: Oyunları sıkıştır bölümünde Counter-Strike 2 için 69 GB'lık oyunun diskte 61 GB yer kapladığı ve 7,9 GB kazanıldığı görülüyor; diğer oyunların yanında Sıkıştır düğmesi var."></a>
         <figcaption>
+          <span class="shot__n">01</span>
           <h3>Silmeden yer aç</h3>
           <p>Oyunları sıkıştır, Windows'un kendi dosya sıkıştırmasını kullanır. Dosyalar silinmez, oyun onları her zamanki gibi okur. Çoğu oyunda %10–40 yer açılır, zaten paketlenmiş oyunlarda daha az. exe/dll dosyalarına ve anti-cheat klasörlerine dokunulmaz.</p>
         </figcaption>
@@ -220,6 +279,7 @@
       <figure class="shot">
         <a href="img/ayarlar.webp" class="shot__img"><img src="img/ayarlar.webp" width="920" height="566" loading="lazy" decoding="async" alt="Ayarlar sekmesi: Monitörü en yüksek Hz'e al, Güç planı: Yüksek performans ve Oyun Modu ayarları; her birinin altında Etkisi ve Dikkat açıklamaları ile bir Geri al düğmesi."></a>
         <figcaption>
+          <span class="shot__n">02</span>
           <h3>Her ayarın etkisi ve bedeli yazıyor</h3>
           <p>Her ayarın altında ne işe yaradığı (<b>Etkisi</b>) ve neye mal olduğu (<b>Dikkat</b>) var. Uygulanmış olanın yanında <b>Geri al</b> düğmesi durur.</p>
         </figcaption>
@@ -228,6 +288,7 @@
       <figure class="shot">
         <a href="img/tarama.webp" class="shot__img"><img src="img/tarama.webp" width="920" height="506" loading="lazy" decoding="async" alt="Sistem taraması sekmesi: 1 kritik, 0 uyarı, 12 bilgi ve 12 iyi sonucu; altında dolu sistem diski uyarısı ile işlemci, ekran kartı ve Resizable BAR bilgileri."></a>
         <figcaption>
+          <span class="shot__n">03</span>
           <h3>Önce teşhis</h3>
           <p>Tarama hiçbir şeyi değiştirmez. Sorunları önem sırasına koyar; düzeltilebilenlerin yanında düğme var, BIOS'ta yapılması gerekenleri adım adım anlatır.</p>
         </figcaption>
@@ -236,6 +297,7 @@
       <figure class="shot">
         <a href="img/oyuna-hazirla.webp" class="shot__img"><img src="img/oyuna-hazirla.webp" width="920" height="640" loading="lazy" decoding="async" alt="Genel bakış ekranının alt kısmı: RAM kullanım çubuğu, Oyuna hazırla düğmesi ve kapatılabilecek programlar; altında Sert mod listesi ve her maddenin bedeli."></a>
         <figcaption>
+          <span class="shot__n">04</span>
           <h3>Oyuna hazırla ve Sert mod</h3>
           <p>Oyundan önce RAM yiyen programları tek onayla kapat. Sert mod'daki her maddenin bedeli açıkça yazıyor; Optimize et bunları kendiliğinden yapmaz.</p>
         </figcaption>
@@ -244,6 +306,7 @@
       <figure class="shot">
         <a href="img/geri-al.webp" class="shot__img"><img src="img/geri-al.webp" width="920" height="466" loading="lazy" decoding="async" alt="Geri al sekmesi: FrameProof'un yaptığı değişikliklerin tarih ve değişiklik sayısıyla listesi, her satırda bir Geri al düğmesi ve üstte Hepsini geri al."></a>
         <figcaption>
+          <span class="shot__n">05</span>
           <h3>Hepsi kayıtlı</h3>
           <p>Yapılan her değişiklik tarihiyle listede. Bir ayar hoşuna gitmediyse tek tıkla eski haline döner; hepsini birden de geri alabilirsin.</p>
         </figcaption>
@@ -253,11 +316,12 @@
 </section>
 
 <!-- FAQ -->
-<section class="sec sec--alt" id="sss">
-  <div class="wrap wrap--narrow">
-    <header class="sec__head">
+<section class="sec" id="sss">
+  <div class="wrap faq__grid">
+    <header class="sec__head faq__head">
       <p class="kicker">SSS</p>
       <h2>Sık sorulanlar</h2>
+      <p>Cevabını bulamadın mı? GitHub'da <a href="https://github.com/siiplasplas/FrameProof/issues" rel="noopener">soru aç</a>, kaynak koduna da kendin bakabilirsin.</p>
     </header>
 
     <div class="faq">
@@ -278,8 +342,12 @@
         <div><p>Sen onay vermeden hiçbir şeyi. <b>Optimize et</b> önce yapacaklarının listesini gösterir; yalnızca güvenli olanları yapar: seçili temizlik maddeleri, oyunları güçlü ekran kartına sabitleme, Oyun Modu, Xbox arka plan kaydı, monitör Hz'i ve Windows'un reklam ve arka plan özellikleri. Bellek Bütünlüğü, HAGS, telemetri servisi gibi tartışmalı ya da yeniden başlatma isteyen ayarları kendiliğinden yapmaz, programları da kapatmaz. Bitince neyi yaptığını ve kaç MB açıldığını gösterir.</p></div>
       </details>
       <details>
+        <summary>BIOS ayarlarımı değiştiriyor mu?</summary>
+        <div><p>Hayır. BIOS ayarları Windows'tan güvenle değiştirilemez, her üreticinin yapısı farklı. FrameProof yalnız okur: RAM'in kutudaki hızda çalışıp çalışmadığını, Resizable BAR ve Secure Boot'un durumunu söyler, senin anakartında bu ayarların hangi menüde olduğunu adım adım yazar. İstersen bilgisayarı doğrudan BIOS ekranına yeniden başlatır; ayarı sen yaparsın.</p></div>
+      </details>
+      <details>
         <summary>Bir şey hoşuma gitmezse nasıl geri alırım?</summary>
-        <div><p><b>Geri al</b> sekmesini aç. FrameProof'un yaptığı her ayar orada eski değeriyle duruyor; tek tek ya da <b>Hepsini geri al</b> ile birden döndürürsün. Sıkıştırılmış oyunlar da buradan geri açılır (bunun için diskte kazanılan kadar boş yer lazım, yoksa FrameProof söyler ve başlamaz).</p><p>İki istisna var: temizlikte silinen gereksiz dosyalar geri gelmez (silmeden önce neyin ne kadar yer kapladığını görür, kendin seçersin),<b>Oyuna hazırla</b> ile kapatılan programlar da geri alınmaz, sadece yeniden açarsın. Kapatmadan önce açık işini kaydet.</p></div>
+        <div><p><b>Geri al</b> sekmesini aç. FrameProof'un yaptığı her ayar orada eski değeriyle duruyor; tek tek ya da <b>Hepsini geri al</b> ile birden döndürürsün. Sıkıştırılmış oyunlar da buradan geri açılır (bunun için diskte kazanılan kadar boş yer lazım, yoksa FrameProof söyler ve başlamaz).</p><p>İki istisna var: temizlikte silinen gereksiz dosyalar geri gelmez (silmeden önce neyin ne kadar yer kapladığını görür, kendin seçersin), <b>Oyuna hazırla</b> ile kapatılan programlar da geri alınmaz, sadece yeniden açarsın. Kapatmadan önce açık işini kaydet.</p></div>
       </details>
       <details>
         <summary>FPS'im ne kadar artar?</summary>
@@ -287,7 +355,7 @@
       </details>
       <details>
         <summary>Güncellemeler nasıl geliyor?</summary>
-        <div><p>Uygulama yeni sürüm olup olmadığını kendisi kontrol eder. Yeni sürüm varsa haber verir; tıklarsan kendini günceller. İstersen bu sayfadan en son sürümü her zaman yeniden indirebilirsin.</p></div>
+        <div><p>Uygulama yeni sürüm olup olmadığını kendisi kontrol eder. Yeni sürüm varsa haber verir; tıklarsan indirir, dosyanın parmak izini doğrular ve kendini günceller. İstersen bu sayfadan en son sürümü her zaman yeniden indirebilirsin.</p></div>
       </details>
       <details>
         <summary>Ücretli mi? Hesap açmam gerekiyor mu?</summary>
@@ -299,7 +367,7 @@
       </details>
       <details>
         <summary>Laptopumda da işe yarar mı?</summary>
-        <div><p>Evet, laptoplar için ayrıca bakıyor. İki ekran kartlı laptoplarda Windows bazı oyunları zayıf karta atayabiliyor; FrameProof bunu gösterir ve tek tıkla güçlü karta sabitler. FPS ölçümü sırasında oyunun gerçekten hangi kartta çalıştığını, ısıdan yavaşlama olup olmadığını ve laptopun pilde olup olmadığını da okur.</p></div>
+        <div><p>Evet, laptoplar için ayrıca bakıyor. İki ekran kartlı laptoplarda Windows bazı oyunları zayıf karta atayabiliyor; FrameProof bunu gösterir ve tek tıkla güçlü karta sabitler. Laptopun pilde ya da sessiz modda olup olmadığını, monitör kablosunun doğru yere takılı olup olmadığını da söyler.</p></div>
       </details>
     </div>
   </div>
@@ -307,14 +375,20 @@
 
 <!-- FINAL CTA -->
 <section class="final">
-  <div class="wrap final__in">
-    <h2>Tahmin yok, sayı var.</h2>
-    <p>İndir, tara, ölç. Beğenmediğin her ayarı geri al.</p>
-    <a class="btn btn--main" href="https://github.com/siiplasplas/FrameProof/releases/latest/download/FrameProof.exe">
-      <svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20"><path d="M12 4v11m0 0l-4.5-4.5M12 15l4.5-4.5M5 19h14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <span>FrameProof'u indir <small>66 MB · Windows 10/11</small></span>
-    </a>
-    <p class="note note--c">Kurulum gerekmez. Uyarı çıkarsa: <b>Ek bilgi → Yine de çalıştır</b>.</p>
+  <div class="wrap">
+    <div class="final__box">
+      <div class="final__bg" aria-hidden="true"></div>
+      <h2>Tahmin yok, <span class="hl">sayı var.</span></h2>
+      <p>İndir, tara, ölç. Beğenmediğin her ayarı geri al.</p>
+      <div class="cta cta--c">
+        <a class="btn btn--main" href="https://github.com/siiplasplas/FrameProof/releases/latest/download/FrameProof.exe">
+          <svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20"><path d="M12 4v11m0 0l-4.5-4.5M12 15l4.5-4.5M5 19h14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>FrameProof'u indir <small>66 MB · Windows 10/11</small></span>
+        </a>
+        <a class="btn btn--ghost" href="https://github.com/siiplasplas/FrameProof/releases" rel="noopener">Tüm sürümler</a>
+      </div>
+      <p class="note note--c">Kurulum gerekmez. Uyarı çıkarsa: <b>Ek bilgi → Yine de çalıştır</b>.</p>
+    </div>
   </div>
 </section>
 
