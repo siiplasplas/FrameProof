@@ -1,7 +1,7 @@
 {
-  "version": "0.2.0",
-  "url": "https://github.com/siiplasplas/FrameProof/releases/download/v0.2.0/FrameProof.exe",
-  "sha256": "97c57727a09eb7ca29c028a761381d7734c3214a827cbee5c7b44f7cdc53542c",
-  "size": 66116602,
-  "notes": "BIOS rehberi, laptop ve monitör kablosu kontrolleri, pencereli oyun ayarı, otomatik güncelleme."
+  "version": "0.2.1",
+  "url": "https://github.com/siiplasplas/FrameProof/releases/download/v0.2.1/FrameProof.exe",
+  "sha256": "57ccf27ddd553ac827ae08ec84dc4df357c0663273f47068d842ac6014847cbb",
+  "size": 66210355,
+  "notes": "Yeni logo ve uygulama ikonu."
 }
